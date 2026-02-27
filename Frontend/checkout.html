@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout | Outfiito</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  
+</head>
+
+<body>
+
+<!-- NAVBAR (Optional - keep same as other pages if you have one) -->
+<nav class="navbar">
+  <div class="logo">OUTFIITO</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="cart.html">Cart</a></li>
+  </ul>
+</nav>
+
+<!-- CHECKOUT SECTION -->
+<section class="checkout-page">
+
+  <div class="checkout-container">
+
+    <h2>Checkout</h2>
+
+    <!-- CART DISPLAY -->
+    <div class="cart-box">
+      <h3>Your Cart</h3>
+      <div id="cartItems"></div>
+      <div id="totalAmount" class="total"></div>
+    </div>
+
+    <!-- CHECKOUT FORM -->
+    <form id="checkoutForm" class="checkout-form">
+
+      <input type="text" id="name" placeholder="Full Name" required>
+
+      <input type="tel" id="phone" placeholder="Phone Number" required>
+
+      <textarea id="address" placeholder="Full Address" required></textarea>
+
+      <input type="text" id="pincode" placeholder="Pincode" required>
+
+      <select id="paymentMethod" required>
+        <option value="">Select Payment Method</option>
+        <option value="COD">Cash on Delivery</option>
+        <option value="ONLINE">Online Payment</option>
+      </select>
+
+      <button type="submit">Place Order</button>
+
+    </form>
+
+  </div>
+
+</section>
+
+<script src="checkout.js"></script>
+
+</body>
+</html>
