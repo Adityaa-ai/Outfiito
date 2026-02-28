@@ -43,13 +43,13 @@ if (form) {
       paymentMethod
     };
 
-    fetch("http://localhost:5000/order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(orderData)
-    })
+    fetch("https://outfiito-backend.onrender.com/order", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(orderData)
+})
     .then(response => response.json())
     .then(data => {
       if (data.success) {
