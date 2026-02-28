@@ -5,31 +5,39 @@
 const products = [
   {
     id: 1,
-    name: "Classic White Tee",
+    name: "Emirates",
     price: 499,
-    front: "images/product1.jpg",
-    back: "images/product1-back.jpg"
+    front: "imagess/IMG_1601F.png",
+    back: "imagess/IMG_1601B.png"
   },
   {
     id: 2,
-    name: "Back Print Tee",
+    name: "Calm bitch",
     price: 599,
-    front: "images/product2.jpg",
-    back: "images/product2-back.jpg"
+    front: "imagess/IMG_1602F.png",
+    back: "imagess/IMG_1602B.png"
   },
   {
     id: 3,
-    name: "Minimal Logo Tee",
+    name: "Eagle",
     price: 549,
-    front: "images/product3.jpg",
-    back: "images/product3-back.jpg"
+    front: "imagess/IMG_1603F.png",
+    back: "imagess/IMG_1603B.png"
   },
   {
     id: 4,
-    name: "Streetwear Graphic Tee",
+    name: "COHCO3",
     price: 699,
-    front: "images/product4.jpg",
-    back: "images/product4-back.jpg"
+    front: "imagess/IMG_1606.png",
+    back: "imagess/IMG_1607.png"
+  },
+
+  {
+    id: 5,
+    name: "Unknown Saint",
+    price: 699,
+    front: "imagess/IMG_1609.png",
+    back: "imagess/IMG_1609.png"
   }
 ];
 
@@ -90,6 +98,10 @@ function addToCart() {
 
   alert("Added to cart!");
   window.location.href = "checkout.html";
+}
+
+function changeImage(element) {
+  document.getElementById("mainProductImage").src = element.src;
 }
 
 // ===============================

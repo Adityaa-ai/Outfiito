@@ -1,39 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Shop | OUTFIITO</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>Shop - Outfiito</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- NAVBAR -->
+
+
 <nav class="navbar">
   <div class="logo">OUTFIITO</div>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="shop.html">Shop</a></li>
     <li><a href="contact.html">Contact</a></li>
-    <li><a href="checkout.html">Cart (<span id="cartCount">0</span>)</a></li>
+    <li>
+      <a href="checkout.html" class="cart-icon">
+        🛒 <span id="cartCount">0</span>
+      </a>
+    </li>
   </ul>
 </nav>
 
-<section class="shop-container">
+<section class="shop-section">
 
-  <h2 style="text-align:center; margin-bottom:40px;">All Tees</h2>
+  <!-- Product 1 -->
+  <div class="product-row">
+    <div class="product-img">
+      <img src="imagess/IMG_1601F.PNG" alt="Emirates">
+    </div>
+    <div class="product-info">
+      <h2>Emirates</h2>
+      <p class="price">₹499</p>
+      <a href="product.html" class="view-btn">View Product</a>
+    </div>
+  </div>
 
-  <div class="products" id="productList">
+  <!-- Product 2 (reverse layout) -->
+  <div class="product-row reverse">
+    <div class="product-img">
+      <img src="imagess/IMG_1602F.PNG" alt="Calm Bitch">
+    </div>
+    <div class="product-info">
+      <h2>Calm Bitch</h2>
+      <p class="price">₹599</p>
+      <a href="product.html" class="view-btn">View Product</a>
+    </div>
+  </div>
+
+  <!-- Product 3 -->
+  <div class="product-row">
+    <div class="product-img">
+      <img src="imagess/IMG_1603F.PNG" alt="Eagle Eye">
+    </div>
+    <div class="product-info">
+      <h2>Eagle Eye</h2>
+      <p class="price">₹549</p>
+      <a href="product.html" class="view-btn">View Product</a>
+    </div>
+  </div>
+
+<div class="product-row">
+    <div class="product-img">
+      <img src="imagess/IMG_1606.PNG" alt="COHCO3">
+    </div>
+    <div class="product-info">
+      <h2>COHCO3</h2>
+      <p class="price">₹549</p>
+      <a href="product.html" class="view-btn">View Product</a>
+    </div>
+  </div>
+
+  <div class="product-row">
+    <div class="product-img">
+      <img src="imagess/IMG_1609.PNG" alt="Saint">
+    </div>
+    <div class="product-info">
+      <h2>Unknown Saint</h2>
+      <p class="price">₹549</p>
+      <a href="product.html" class="view-btn">View Product</a>
+    </div>
   </div>
 
 </section>
 
 <footer class="footer">
-  <p>© 2026 OUTFIITO. All rights reserved.</p>
-</footer>
+  <div class="footer-content">
+    <div class="footer-left">
+      <h3>OUTFIITO</h3>
+      <p>Premium Streetwear. Bold Identity.</p>
+    </div>
 
-<script src="script.js"></script>
+    <div class="footer-right">
+      <p>© 2026 Outfiito. All Rights Reserved.</p>
+    </div>
+  </div>
+</footer>
 
 </body>
 </html>
