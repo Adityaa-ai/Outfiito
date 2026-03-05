@@ -1,9 +1,10 @@
-=<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>OUTFIITO</title>
+  <title>Outfiito</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -12,40 +13,64 @@
 
 <!-- NAVBAR -->
 <nav class="navbar">
-  <div class="logo">OUTFIITO</div>
+  <div class="logo">Outfiito</div>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="shop.html">Shop</a></li>
     <li><a href="contact.html">Contact</a></li>
-    <li><a href="checkout.html">Cart</a></li>
+    <li>
+      <a href="checkout.html" class="cart-icon">
+        🛍 <span id="cartCount">0</span>
+      </a>
+    </li>
   </ul>
 </nav>
 
-<!-- HERO SECTION -->
-<section class="hero">
-  <div class="hero-content">
-    <h1>OUTFIITO</h1>
-    <p>Premium Streetwear. Bold Prints. Pure Attitude.</p>
-    <button onclick="window.location.href='shop.html'">
-      SHOP NOW
-    </button>
+<!-- HERO -->
+<section class="section hero-minimal">
+  <div class="hero-container">
+    <h1>Modern Streetwear for Everyday Identity</h1>
+    <p>
+      Elevated essentials designed for comfort, clarity, and confidence.
+      Discover timeless prints crafted for bold individuals.
+    </p>
+    <a href="shop.html" class="btn-primary">Shop Collection</a>
   </div>
 </section>
 
+<!-- BRAND STATEMENT -->
+<section class="section brand-block">
+  <div class="brand-text">
+    <h2>Designed to Be Worn. Built to Be Remembered.</h2>
+    <p>
+      Outfiito blends minimal design with strong identity. 
+      Each piece is crafted with intention — clean silhouettes,
+      neutral tones, and expressive prints.
+    </p>
+  </div>
+</section>
 
-
+<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-content">
-    <div class="footer-left">
-      <h3>OUTFIITO</h3>
+    <div>
+      <h3>Outfiito</h3>
       <p>Premium Streetwear. Bold Identity.</p>
+
+      <div class="footer-social">
+        <a href="#">Instagram</a>
+        <a href="#">Twitter</a>
+        <a href="#">Pinterest</a>
+      </div>
     </div>
 
-    <div class="footer-right">
+    <div>
       <p>© 2026 Outfiito. All Rights Reserved.</p>
     </div>
   </div>
 </footer>
+
+<script src="script.js"></script>
 
 </body>
 </html>

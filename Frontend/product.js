@@ -1,5 +1,5 @@
 // ===============================
-// PRODUCT DATA (Same as shop)
+// PRODUCT DATA
 // ===============================
 
 const products = [
@@ -12,7 +12,7 @@ const products = [
   },
   {
     id: 2,
-    name: "Calm bitch",
+    name: "Calm Bitch",
     price: 599,
     front: "imagess/IMG_1602F.png",
     back: "imagess/IMG_1602B.png"
@@ -31,7 +31,6 @@ const products = [
     front: "imagess/IMG_1606.png",
     back: "imagess/IMG_1607.png"
   },
-
   {
     id: 5,
     name: "Unknown Saint",
@@ -42,77 +41,77 @@ const products = [
 ];
 
 // ===============================
-// LOAD SELECTED PRODUCT
+// GET PRODUCT FROM URL
 // ===============================
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+const params = new URLSearchParams(window.location.search);
+const productId = parseInt(params.get("id"));
 
-const productId = localStorage.getItem("selectedProduct");
-const product = products.find(p => p.id == productId);
+const product = products.find(p => p.id === productId);
 
-const container = document.getElementById("productDetails");
+if (product) {
 
-if (product && container) {
-  container.innerHTML = `
-    <div style="flex:1; min-width:300px;">
-      <img src="${product.front}" style="width:100%; max-height:400px; object-fit:contain;">
-      <br><br>
-      <img src="${product.back}" style="width:100%; max-height:400px; object-fit:contain;">
-    </div>
+  document.querySelector(".product-title").innerText = product.name;
+  document.querySelector(".product-price").innerText = "₹" + product.price;
 
-    <div style="flex:1; min-width:300px;">
-      <h2>${product.name}</h2>
-      <h3>₹${product.price}</h3>
+  const mainImage = document.getElementById("mainProductImage");
+  mainImage.src = product.front;
 
-      <br>
-
-      <label>Select Size:</label>
-      <select id="sizeSelect">
-        <option value="S">S</option>
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-      </select>
-
-      <br><br>
-
-      <button onclick="addToCart()">Add to Cart</button>
-    </div>
-  `;
+  const thumbs = document.querySelectorAll(".thumb");
+  if (thumbs.length >= 2) {
+    thumbs[0].src = product.front;
+    thumbs[1].src = product.back;
+  }
 }
+
+// ===============================
+// IMAGE SWITCH
+// ===============================
+
+const thumbnails = document.querySelectorAll(".thumb");
+const mainImage = document.getElementById("mainProductImage");
+
+thumbnails.forEach(thumb => {
+  thumb.addEventListener("click", () => {
+    mainImage.src = thumb.src;
+  });
+});
 
 // ===============================
 // ADD TO CART
 // ===============================
 
-function addToCart() {
-  const size = document.getElementById("sizeSelect").value;
+const addBtn = document.querySelector(".add-cart-btn");
 
-  const item = {
+addBtn.addEventListener("click", () => {
+
+  const size = document.querySelector(".size-select").value;
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  cart.push({
     name: product.name + " - " + size,
     price: product.price
-  };
+  });
 
-  cart.push(item);
   localStorage.setItem("cart", JSON.stringify(cart));
 
   alert("Added to cart!");
-  window.location.href = "checkout.html";
-}
-
-function changeImage(element) {
-  document.getElementById("mainProductImage").src = element.src;
-}
+});
 
 // ===============================
-// CART COUNT
+// UPDATE CART COUNT
 // ===============================
 
 function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
   const cartCount = document.getElementById("cartCount");
+
   if (cartCount) {
     cartCount.innerText = cart.length;
   }
 }
 
 updateCartCount();
+
+

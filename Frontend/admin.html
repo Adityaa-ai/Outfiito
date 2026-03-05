@@ -1,56 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin | OUTFIITO</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Admin Dashboard | Outfiito</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* ADMIN PAGE */
+
+.admin-container{
+max-width:1100px;
+margin:auto;
+padding:80px 8%;
+}
+
+.admin-title{
+margin-bottom:40px;
+font-size:28px;
+}
+
+.order-card{
+border:1px solid #e8e5df;
+padding:25px;
+margin-bottom:25px;
+border-radius:6px;
+background:#fff;
+}
+
+.order-header{
+display:flex;
+justify-content:space-between;
+margin-bottom:15px;
+font-weight:500;
+}
+
+.order-items{
+margin-top:15px;
+padding-top:10px;
+border-top:1px solid #eee;
+}
+
+.order-item{
+display:flex;
+justify-content:space-between;
+font-size:14px;
+margin-bottom:8px;
+}
+
+.order-meta{
+font-size:14px;
+color:#555;
+margin-top:5px;
+}
+
+.order-total{
+margin-top:15px;
+font-weight:600;
+}
+
+</style>
 </head>
 
 <body>
 
 <nav class="navbar">
-  <div class="logo">OUTFIITO ADMIN</div>
+<div class="logo">Outfiito Admin</div>
 </nav>
 
-<section class="shop-container">
+<section class="admin-container">
 
-  <h2 style="margin-bottom:40px;">All Orders</h2>
+<h2 class="admin-title">Customer Orders</h2>
 
-  <div id="ordersContainer"></div>
+<div id="ordersContainer"></div>
 
 </section>
 
 <script>
 
 fetch("https://outfiito-backend.onrender.com/orders")
-  .then(res => res.json())
-  .then(data => {
+.then(res => res.json())
+.then(data => {
 
-    const container = document.getElementById("ordersContainer");
+const container = document.getElementById("ordersContainer");
 
-    if (data.length === 0) {
-      container.innerHTML = "<p>No orders yet.</p>";
-      return;
-    }
+if(!data.length){
+container.innerHTML="<p>No orders yet.</p>";
+return;
+}
 
-    container.innerHTML = data.map(order => `
-      <div style="border:1px solid #eee; padding:20px; margin-bottom:20px;">
-        <h3>${order.name}</h3>
-        <p><strong>Phone:</strong> ${order.phone}</p>
-        <p><strong>Address:</strong> ${order.address}</p>
-        <p><strong>Pincode:</strong> ${order.pincode}</p>
-        <p><strong>Payment:</strong> ${order.paymentMethod}</p>
-        <p><strong>Total:</strong> ₹${order.total}</p>
-        <p><strong>Date:</strong> ${new Date(order.date).toLocaleString()}</p>
-      </div>
-    `).join("");
+container.innerHTML = data.map(order => `
 
-  })
-  .catch(err => {
-    console.log(err);
-  });
+<div class="order-card">
+
+<div class="order-header">
+<span>Order by ${order.name}</span>
+<span>${new Date(order.date).toLocaleString()}</span>
+</div>
+
+<div class="order-meta">
+Phone: ${order.phone}<br>
+Address: ${order.address}<br>
+Pincode: ${order.pincode}<br>
+Payment: ${order.paymentMethod}
+</div>
+
+<div class="order-items">
+
+${order.items.map(item => `
+<div class="order-item">
+<span>${item.name}</span>
+<span>₹${item.price}</span>
+</div>
+`).join("")}
+
+</div>
+
+<div class="order-total">
+Total: ₹${order.total}
+</div>
+
+</div>
+
+`).join("");
+
+})
+.catch(err=>{
+console.log(err);
+});
 
 </script>
 

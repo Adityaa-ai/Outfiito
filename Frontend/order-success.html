@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Order Confirmed | OUTFIITO</title>
+  <title>Order Confirmed | Outfiito</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -11,44 +12,59 @@
 <body>
 
 <nav class="navbar">
-  <div class="logo">OUTFIITO</div>
+  <div class="logo">Outfiito</div>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="shop.html">Shop</a></li>
+    <li>
+      <a href="checkout.html" class="cart-icon">
+        🛍 <span id="cartCount">0</span>
+      </a>
+    </li>
   </ul>
 </nav>
 
-<section style="padding:100px 8%; text-align:center;">
+<section class="section success-section">
 
-  <h1 style="font-size:40px; margin-bottom:20px;">Order Confirmed 🎉</h1>
+  <div class="success-box">
 
-  <p style="font-size:18px; margin-bottom:30px;">
-    Thank you for shopping with OUTFIITO.
-  </p>
+    <div class="success-icon">✓</div>
 
-  <p style="margin-bottom:40px;">
-    Your order has been successfully placed.
-  </p>
+    <h1>Order Confirmed</h1>
 
-  <button onclick="window.location.href='shop.html'"
-    style="padding:12px 30px; background:#000; color:#fff; border:none; cursor:pointer;">
-    Continue Shopping
-  </button>
+    <p>
+      Thank you for choosing Outfiito.
+      Your order has been successfully placed and is being processed.
+    </p>
+
+    <a href="shop.html" class="btn-primary">
+      Continue Shopping
+    </a>
+
+  </div>
 
 </section>
 
 <footer class="footer">
   <div class="footer-content">
-    <div class="footer-left">
-      <h3>OUTFIITO</h3>
+    <div>
+      <h3>Outfiito</h3>
       <p>Premium Streetwear. Bold Identity.</p>
+
+      <div class="footer-social">
+        <a href="#">Instagram</a>
+        <a href="#">Twitter</a>
+        <a href="#">Pinterest</a>
+      </div>
     </div>
 
-    <div class="footer-right">
+    <div>
       <p>© 2026 Outfiito. All Rights Reserved.</p>
     </div>
   </div>
 </footer>
+
+<script src="script.js"></script>
 
 </body>
 </html>

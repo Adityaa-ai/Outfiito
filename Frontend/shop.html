@@ -1,102 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
   <title>Shop - Outfiito</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-
-
+<!-- NAVBAR -->
 <nav class="navbar">
-  <div class="logo">OUTFIITO</div>
+  <div class="logo">Outfiito</div>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="shop.html">Shop</a></li>
     <li><a href="contact.html">Contact</a></li>
     <li>
       <a href="checkout.html" class="cart-icon">
-        🛒 <span id="cartCount">0</span>
+        🛍 <span id="cartCount">0</span>
       </a>
     </li>
   </ul>
 </nav>
 
-<section class="shop-section">
+<!-- SHOP SECTION -->
+<section class="section">
 
   <!-- Product 1 -->
   <div class="product-row">
     <div class="product-img">
-      <img src="imagess/IMG_1601F.PNG" alt="Emirates">
+      <img src="imagess/IMG_1601F.PNG" alt="Emirates Tee">
     </div>
     <div class="product-info">
       <h2>Emirates</h2>
       <p class="price">₹499</p>
-      <a href="product.html" class="view-btn">View Product</a>
+      <a href="product.html?id=1" class="btn-primary">View Product</a>
     </div>
   </div>
 
-  <!-- Product 2 (reverse layout) -->
+  <!-- Product 2 -->
   <div class="product-row reverse">
     <div class="product-img">
-      <img src="imagess/IMG_1602F.PNG" alt="Calm Bitch">
+      <img src="imagess/IMG_1602F.PNG" alt="Calm Tee">
     </div>
     <div class="product-info">
       <h2>Calm Bitch</h2>
       <p class="price">₹599</p>
-      <a href="product.html" class="view-btn">View Product</a>
+      <a href="product.html?id=2" class="btn-primary">View Product</a>
     </div>
   </div>
 
   <!-- Product 3 -->
   <div class="product-row">
     <div class="product-img">
-      <img src="imagess/IMG_1603F.PNG" alt="Eagle Eye">
+      <img src="imagess/IMG_1603F.PNG" alt="Eagle Eye Tee">
     </div>
     <div class="product-info">
       <h2>Eagle Eye</h2>
       <p class="price">₹549</p>
-      <a href="product.html" class="view-btn">View Product</a>
+      <a href="product.html?id=3" class="btn-primary">View Product</a>
     </div>
   </div>
 
-<div class="product-row">
+  <!-- Product 4 -->
+  <div class="product-row reverse">
     <div class="product-img">
-      <img src="imagess/IMG_1606.PNG" alt="COHCO3">
+      <img src="imagess/IMG_1606.PNG" alt="COHCO3 Tee">
     </div>
     <div class="product-info">
       <h2>COHCO3</h2>
       <p class="price">₹549</p>
-      <a href="product.html" class="view-btn">View Product</a>
+      <a href="product.html?id=4" class="btn-primary">View Product</a>
     </div>
   </div>
 
+  <!-- Product 5 -->
   <div class="product-row">
     <div class="product-img">
-      <img src="imagess/IMG_1609.PNG" alt="Saint">
+      <img src="imagess/IMG_1609.PNG" alt="Unknown Saint Tee">
     </div>
     <div class="product-info">
       <h2>Unknown Saint</h2>
       <p class="price">₹549</p>
-      <a href="product.html" class="view-btn">View Product</a>
+      <a href="product.html?id=5" class="btn-primary">View Product</a>
     </div>
   </div>
 
 </section>
 
+<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-content">
-    <div class="footer-left">
-      <h3>OUTFIITO</h3>
+    <div>
+      <h3>Outfiito</h3>
       <p>Premium Streetwear. Bold Identity.</p>
+
+      <div class="footer-social">
+        <a href="#">Instagram</a>
+        <a href="#">Twitter</a>
+        <a href="#">Pinterest</a>
+      </div>
     </div>
 
-    <div class="footer-right">
+    <div>
       <p>© 2026 Outfiito. All Rights Reserved.</p>
     </div>
   </div>
 </footer>
+
+<script src="script.js"></script>
 
 </body>
 </html>

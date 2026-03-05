@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Product | OUTFIITO</title>
+  <title>Product | Outfiito</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -12,78 +13,95 @@
 
 <!-- NAVBAR -->
 <nav class="navbar">
-  <div class="logo">OUTFIITO</div>
+  <div class="logo">Outfiito</div>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="shop.html">Shop</a></li>
     <li><a href="contact.html">Contact</a></li>
-    <li><a href="checkout.html">Cart (<span id="cartCount">0</span>)</a></li>
+    <li>
+      <a href="checkout.html" class="cart-icon">
+        🛍 <span id="cartCount">0</span>
+      </a>
+    </li>
   </ul>
 </nav>
 
-<div class="product-container">
+<!-- PRODUCT SECTION -->
+<section class="section">
 
- <div class="product-image-section">
+  <div class="product-layout">
 
-  <div class="main-image">
-    <img id="mainProductImage" src="imagess/IMG_1601F.PNG" alt="Product">
-  </div>
+    <!-- IMAGE COLUMN -->
+    <div class="product-images">
 
-  <div class="thumbnail-images">
-    
+      <div class="main-image">
+        <img id="mainProductImage" src="imagess/IMG_1601F.PNG" alt="Product">
+      </div>
 
-    <img src="imagess/IMG_1601B.PNG" 
-         onclick="changeImage(this)" 
-         class="thumb">
-  </div>
+      <div class="thumbnail-images">
+        <img src="imagess/IMG_1601F.PNG" class="thumb">
+        <img src="imagess/IMG_1601B.PNG" class="thumb">
+      </div>
 
-</div>
-
-
-
-  <div class="product-details">
-    <h1 class="product-title">Emirates Oversized Tee</h1>
-
-    <div class="product-rating">
-      ★★★★☆ <span>4.6 (128 ratings)</span>
     </div>
 
-    <p class="product-price">₹499</p>
+    <!-- DETAILS COLUMN -->
+    <div class="product-details">
 
-    <p class="product-desc">
-      Premium oversized cotton tee with high quality print.
-      Comfortable fit. Streetwear aesthetic.
-    </p>
+      <h1 class="product-title">Emirates Oversized Tee</h1>
 
-    <label>Select Size</label>
-    <select class="size-select">
-      <option>S</option>
-      <option>M</option>
-      <option>L</option>
-      <option>XL</option>
-    </select>
+      <div class="product-rating">
+        ★★★★☆ <span>4.6 (128 ratings)</span>
+      </div>
 
-    <button class="add-cart-btn">Add to Cart</button>
+      <p class="product-price">₹499</p>
+
+      <p class="product-desc">
+        Premium oversized cotton tee with high quality print.
+        Clean silhouette. Minimal aesthetic. Built for comfort.
+      </p>
+
+      <div class="product-options">
+        <label>Select Size</label>
+        <select class="size-select">
+          <option>S</option>
+          <option>M</option>
+          <option>L</option>
+          <option>XL</option>
+        </select>
+      </div>
+
+      <button class="btn-primary add-cart-btn">
+        Add to Cart
+      </button>
+
+    </div>
 
   </div>
 
-</div>
+</section>
 
-
-
+<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-content">
-    <div class="footer-left">
-      <h3>OUTFIITO</h3>
+    <div>
+      <h3>Outfiito</h3>
       <p>Premium Streetwear. Bold Identity.</p>
+
+      <div class="footer-social">
+        <a href="#">Instagram</a>
+        <a href="#">Twitter</a>
+        <a href="#">Pinterest</a>
+      </div>
     </div>
 
-    <div class="footer-right">
+    <div>
       <p>© 2026 Outfiito. All Rights Reserved.</p>
     </div>
   </div>
 </footer>
 
+<script src="script.js"></script>
 <script src="product.js"></script>
 
 </body>

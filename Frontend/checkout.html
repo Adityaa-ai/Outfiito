@@ -4,76 +4,93 @@
   <meta charset="UTF-8">
   <title>Checkout | Outfiito</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  
 </head>
 
 <body>
 
-<!-- NAVBAR (Optional - keep same as other pages if you have one) -->
+<!-- NAVBAR -->
 <nav class="navbar">
-  <div class="logo">OUTFIITO</div>
+  <div class="logo">Outfiito</div>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="shop.html">Shop</a></li>
     <li><a href="contact.html">Contact</a></li>
-    <li><a href="cart.html">Cart</a></li>
+    <li>
+      <a href="checkout.html" class="cart-icon">
+        🛍 <span id="cartCount">0</span>
+      </a>
+    </li>
   </ul>
 </nav>
 
-<!-- CHECKOUT SECTION -->
-<section class="checkout-page">
+<section class="section">
 
-  <div class="checkout-container">
+  <div class="checkout-layout">
 
-    <h2>Checkout</h2>
-
-    <!-- CART DISPLAY -->
-    <div class="cart-box">
-      <h3>Your Cart</h3>
+    <!-- ORDER SUMMARY -->
+    <div class="order-summary">
+      <h2>Your Order</h2>
       <div id="cartItems"></div>
-      <div id="totalAmount" class="total"></div>
+      <div id="totalAmount" class="order-total"></div>
     </div>
 
-    <!-- CHECKOUT FORM -->
-    <form id="checkoutForm" class="checkout-form">
+    <!-- SHIPPING FORM -->
+    <div class="checkout-form-container">
 
-      <input type="text" id="name" placeholder="Full Name" required>
+      <h2>Shipping Details</h2>
 
-      <input type="tel" id="phone" placeholder="Phone Number" required>
+      <form id="checkoutForm" class="checkout-form">
 
-      <textarea id="address" placeholder="Full Address" required></textarea>
+        <input type="text" id="name" placeholder="Full Name" required>
 
-      <input type="text" id="pincode" placeholder="Pincode" required>
+        <input type="tel" id="phone" placeholder="Phone Number" required>
 
-      <select id="paymentMethod" required>
-        <option value="">Select Payment Method</option>
-        <option value="COD">Cash on Delivery</option>
-        <option value="ONLINE">Online Payment</option>
-      </select>
+        <textarea id="address" placeholder="Full Address" required></textarea>
 
-      <button type="submit">Place Order</button>
+        <input type="text" id="pincode" placeholder="Pincode" required>
 
-    </form>
+        <select id="paymentMethod" required>
+          <option value="">Select Payment Method</option>
+          <option value="COD">Cash on Delivery</option>
+          <option value="ONLINE">Online Payment</option>
+        </select>
+
+        <button type="submit" class="btn-primary checkout-btn">
+          Place Order
+        </button>
+
+      </form>
+
+    </div>
 
   </div>
 
 </section>
 
-<script src="checkout.js"></script>
 <footer class="footer">
   <div class="footer-content">
-    <div class="footer-left">
-      <h3>OUTFIITO</h3>
+    <div>
+      <h3>Outfiito</h3>
       <p>Premium Streetwear. Bold Identity.</p>
+
+      <div class="footer-social">
+        <a href="#">Instagram</a>
+        <a href="#">Twitter</a>
+        <a href="#">Pinterest</a>
+      </div>
     </div>
 
-    <div class="footer-right">
+    <div>
       <p>© 2026 Outfiito. All Rights Reserved.</p>
     </div>
   </div>
 </footer>
+
+<script src="script.js"></script>
+<script src="checkout.js"></script>
 
 </body>
 </html>

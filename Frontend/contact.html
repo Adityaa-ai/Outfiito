@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Contact | OUTFIITO</title>
+  <title>Contact | Outfiito</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -11,57 +12,82 @@
 <body>
 
 <nav class="navbar">
-  <div class="logo">OUTFIITO</div>
+  <div class="logo">Outfiito</div>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="shop.html">Shop</a></li>
+    <li><a href="checkout.html" class="cart-icon">
+      🛍 <span id="cartCount">0</span>
+    </a></li>
   </ul>
 </nav>
 
-<section style="padding:80px 8%; max-width:600px; margin:auto;">
+<section class="section contact-section">
 
-  <h2 style="margin-bottom:30px;">Contact Us</h2>
+  <div class="contact-layout">
 
-  <form>
+    <!-- LEFT SIDE (Brand Info) -->
+    <div class="contact-info">
+      <h1>Let’s Connect</h1>
+      <p>
+        Have a question about sizing, delivery, or your order?
+        We’re here to help.
+      </p>
 
-    <input type="text" placeholder="Your Name" required
-      style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #ddd;">
+      <div class="contact-meta">
+        <p><strong>Email:</strong> support@outfiito.com</p>
+        <p><strong>Response Time:</strong> 24–48 Hours</p>
+      </div>
 
-    <input type="email" placeholder="Your Email" required
-      style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #ddd;">
+      <div class="about-block">
+        <h3>About Outfiito</h3>
+        <p>
+          Outfiito is a modern streetwear brand built around minimal
+          aesthetics and bold identity. We design elevated essentials
+          crafted for everyday confidence.
+        </p>
+      </div>
+    </div>
 
-    <textarea placeholder="Your Message" rows="5" required
-      style="width:100%; padding:12px; margin-bottom:20px; border:1px solid #ddd;"></textarea>
+    <!-- RIGHT SIDE (Form) -->
+    <div class="contact-form-container">
+      <form class="contact-form">
 
-    <button type="submit"
-      style="padding:12px 30px; background:#000; color:#fff; border:none; cursor:pointer;">
-      Send Message
-    </button>
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea rows="5" placeholder="Your Message" required></textarea>
 
-  </form>
+        <button type="submit" class="btn-primary">
+          Send Message
+        </button>
 
-  <div style="margin-top:50px;">
-    <h3>About OUTFIITO</h3>
-    <p style="margin-top:10px;">
-      OUTFIITO is a premium streetwear brand focused on clean designs,
-      bold prints and high-quality fabrics.
-    </p>
+      </form>
+    </div>
+
   </div>
 
 </section>
 
 <footer class="footer">
   <div class="footer-content">
-    <div class="footer-left">
-      <h3>OUTFIITO</h3>
+    <div>
+      <h3>Outfiito</h3>
       <p>Premium Streetwear. Bold Identity.</p>
+
+      <div class="footer-social">
+        <a href="#">Instagram</a>
+        <a href="#">Twitter</a>
+        <a href="#">Pinterest</a>
+      </div>
     </div>
 
-    <div class="footer-right">
+    <div>
       <p>© 2026 Outfiito. All Rights Reserved.</p>
     </div>
   </div>
 </footer>
+
+<script src="script.js"></script>
 
 </body>
 </html>
