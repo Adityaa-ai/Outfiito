@@ -3,46 +3,43 @@
 // ===============================
 
 const products = [
-{
-id:1,
-name:"Emirates",
-price:499,
-frontThumb:"imagess/IMG_1601F.png",
-backThumb:"imagess/IMG_1601B.png"
-},
-
-{
-id:2,
-name:"Calm Bitch",
-price:599,
-frontThumb:"imagess/IMG_1602F.png",
-backThumb:"imagess/IMG_1602B.png"
-},
-+
-{
-id:3,
-name:"Eagle",
-price:549,
-frontThumb:"imagess/IMG_1603F.png",
-backThumb:"imagess/IMG_1603B.png"
-},
-
-{
-id:4,
-name:"COHCO3",
-price:699,
-frontThumb:"imagess/IMG_1606.png",
-backThumb:"imagess/IMG_1607.png"
-},
-
-{
-id:5,
-name:"Unknown Saint",
-price:699,
-frontThumb:"imagess/IMG_1609.png",
-backThumb:"imagess/IMG_1609.png"
-}
+  {
+    id: 1,
+    name: "Emirates",
+    price: 499,
+    front: "imagess/IMG_1601F.PNG",
+    back: "imagess/IMG_1601B.PNG"
+  },
+  {
+    id: 2,
+    name: "Calm Bitch",
+    price: 599,
+    front: "imagess/IMG_1602F.PNG",
+    back: "imagess/IMG_1602B.PNG"
+  },
+  {
+    id: 3,
+    name: "Eagle",
+    price: 549,
+    front: "imagess/IMG_1603F.PNG",
+    back: "imagess/IMG_1603B.PNG"
+  },
+  {
+    id: 4,
+    name: "COHCO3",
+    price: 699,
+    front: "imagess/IMG_1606.PNG",
+    back: "imagess/IMG_1607.PNG"
+  },
+  {
+    id: 5,
+    name: "Unknown Saint",
+    price: 699,
+    front: "imagess/IMG_1609.PNG",
+    back: "imagess/IMG_1609.PNG"
+  }
 ];
+
 
 // ===============================
 // GET PRODUCT ID FROM URL
@@ -53,69 +50,66 @@ const productId = parseInt(params.get("id"));
 
 const product = products.find(p => p.id === productId);
 
+
 // ===============================
 // LOAD PRODUCT
 // ===============================
 
-if(product){
+if (product) {
 
-document.querySelector(".product-title").innerText = product.name;
-document.querySelector(".product-price").innerText = "₹"+product.price;
+  document.querySelector(".product-title").innerText = product.name;
+  document.querySelector(".product-price").innerText = "₹" + product.price;
 
-const mainImage = document.getElementById("mainProductImage");
-const frontThumb = document.getElementById("frontThumb");
-const backThumb = document.getElementById("backThumb");
+  const mainImage = document.getElementById("mainProductImage");
+  const frontThumb = document.getElementById("frontThumb");
+  const backThumb = document.getElementById("backThumb");
 
-mainImage.src = product.front;
+  mainImage.src = product.front;
 
-frontThumb.src = product.front;
-backThumb.src = product.back;
+  frontThumb.src = product.front;
+  backThumb.src = product.back;
 
-// click switch
-frontThumb.onclick = () => mainImage.src = product.front;
-backThumb.onclick = () => mainImage.src = product.back;
+  frontThumb.onclick = () => mainImage.src = product.front;
+  backThumb.onclick = () => mainImage.src = product.back;
 
 }
+
 
 // ===============================
 // ADD TO CART
 // ===============================
 
-const addBtn = document.querySelector(".add-cart-btn");
+document.querySelector(".add-cart-btn").addEventListener("click", () => {
 
-if(addBtn){
+  const size = document.querySelector(".size-select").value;
 
-addBtn.addEventListener("click",()=>{
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-const size = document.querySelector(".size-select").value;
+  cart.push({
+    name: product.name + " - " + size,
+    price: product.price
+  });
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  localStorage.setItem("cart", JSON.stringify(cart));
 
-cart.push({
-name:product.name + " - " + size,
-price:product.price
-});
-
-localStorage.setItem("cart",JSON.stringify(cart));
-
-alert("Added to cart!");
+  alert("Added to cart!");
 
 });
 
-}
 
 // ===============================
 // CART COUNT
 // ===============================
 
-function updateCartCount(){
+function updateCartCount() {
 
-const cart = JSON.parse(localStorage.getItem("cart")) || [];
-const cartCount = document.getElementById("cartCount");
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-if(cartCount){
-cartCount.innerText = cart.length;
-}
+  const cartCount = document.getElementById("cartCount");
+
+  if (cartCount) {
+    cartCount.innerText = cart.length;
+  }
 
 }
 
