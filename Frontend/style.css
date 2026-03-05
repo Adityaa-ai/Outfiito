@@ -60,6 +60,28 @@ p {
   z-index: 1000;
 }
 
+.nav-links a{
+text-decoration:none;
+color:#111;
+font-weight:500;
+position:relative;
+}
+
+.nav-links a::after{
+content:"";
+position:absolute;
+left:0;
+bottom:-4px;
+width:0%;
+height:2px;
+background:#111;
+transition:0.3s;
+}
+
+.nav-links a:hover::after{
+width:100%;
+}
+
 .logo {
   font-size: 22px;
   font-weight: 600;
@@ -239,6 +261,33 @@ p {
   margin-bottom: 35px;
 }
 
+.hero h1{
+font-size:72px;
+letter-spacing:4px;
+font-weight:700;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:18px;
+opacity:0.8;
+margin-bottom:30px;
+}
+
+.hero button{
+background:#000;
+color:#fff;
+padding:14px 40px;
+border:none;
+cursor:pointer;
+font-weight:500;
+transition:0.3s;
+}
+
+.hero button:hover{
+background:#222;
+}
+
 /* ============================
    BRAND BLOCK
 ============================ */
@@ -380,6 +429,15 @@ p {
   border: 1px solid #e8e5df;
   background: #fff;
 }
+
+.product-row{
+transition:0.3s ease;
+}
+
+.product-row:hover{
+transform:translateY(-3px);
+}
+
 
 /* Responsive */
 
