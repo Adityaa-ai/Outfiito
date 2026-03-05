@@ -7,40 +7,40 @@ const products = [
 id:1,
 name:"Emirates",
 price:499,
-front:"imagess/IMG_1601F.png",
-back:"imagess/IMG_1601B.png"
+frontThumb:"imagess/IMG_1601F.png",
+backThumb:"imagess/IMG_1601B.png"
 },
 
 {
 id:2,
 name:"Calm Bitch",
 price:599,
-front:"imagess/IMG_1602F.png",
-back:"imagess/IMG_1602B.png"
+frontThumb:"imagess/IMG_1602F.png",
+backThumb:"imagess/IMG_1602B.png"
 },
-
++
 {
 id:3,
 name:"Eagle",
 price:549,
-front:"imagess/IMG_1603F.png",
-back:"imagess/IMG_1603B.png"
+frontThumb:"imagess/IMG_1603F.png",
+backThumb:"imagess/IMG_1603B.png"
 },
 
 {
 id:4,
 name:"COHCO3",
 price:699,
-front:"imagess/IMG_1606.png",
-back:"imagess/IMG_1607.png"
+frontThumb:"imagess/IMG_1606.png",
+backThumb:"imagess/IMG_1607.png"
 },
 
 {
 id:5,
 name:"Unknown Saint",
 price:699,
-front:"imagess/IMG_1609.png",
-back:"imagess/IMG_1609.png"
+frontThumb:"imagess/IMG_1609.png",
+backThumb:"imagess/IMG_1609.png"
 }
 ];
 
