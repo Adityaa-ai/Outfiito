@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Product | Outfiito</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Product | Outfiito</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
@@ -14,158 +15,98 @@
 <!-- NAVBAR -->
 <nav class="navbar">
 
-  <div class="logo">OUTFIITO</div>
+<div class="logo">OUTFIITO</div>
 
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="shop.html">Shop</a></li>
-    <li><a href="contact.html">Contact</a></li>
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="shop.html">Shop</a></li>
+<li><a href="contact.html">Contact</a></li>
 
-    <li class="cart-nav">
-      <a href="checkout.html">
-        <svg class="cart-icon" viewBox="0 0 24 24">
-          <path d="M7 4h-2l-1 2v2h2l3.6 7.59-1.35 2.44C7.52 19.37 8.48 21 10 21h9v-2h-9l1.1-2h5.45c.75 0 1.41-.41 1.75-1.03L21 9H7.42l-.94-2z"/>
-        </svg>
-        <span id="cartCount" class="cart-count">0</span>
-      </a>
-    </li>
+<li class="cart-nav">
+<a href="checkout.html">
+🛒 <span id="cartCount">0</span>
+</a>
+</li>
 
-  </ul>
+</ul>
 
 </nav>
 
-<!-- PRODUCT SECTION -->
+
+
 <section class="section">
 
-  <div class="product-layout">
+<div class="product-layout">
 
-    <!-- IMAGE COLUMN -->
-    <div class="product-images">
+<!-- PRODUCT IMAGE -->
+<div class="product-images">
 
-      <div class="main-image">
-        <img id="mainProductImage" src="imagess/IMG_1601F.PNG" alt="Product">
-      </div>
+<div class="main-image">
+<img id="mainProductImage" src="" alt="Product">
+</div>
 
-      <div class="thumbnail-images">
-        <img src="imagess/IMG_1601F.PNG" class="thumb">
-        <img src="imagess/IMG_1601B.PNG" class="thumb">
-      </div>
+<div class="thumbnail-images">
 
-    </div>
+<img id="frontThumb" class="thumb">
+<img id="backThumb" class="thumb">
 
-   
+</div>
 
-    <!-- IMAGE COLUMN -->
-    <div class="product-images">
+</div>
 
-      <div class="main-image">
-        <img id="mainProductImage" src="imagess/IMG_1602F.PNG" alt="Product">
-      </div>
 
-      <div class="thumbnail-images">
-        <img src="imagess/IMG_1602F.PNG" class="thumb">
-        <img src="imagess/IMG_1602B.PNG" class="thumb">
-      </div>
 
-    </div>
+<!-- PRODUCT DETAILS -->
 
-     <!-- IMAGE COLUMN -->
-    <div class="product-images">
+<div class="product-details">
 
-      <div class="main-image">
-        <img id="mainProductImage" src="imagess/IMG_1603F.PNG" alt="Product">
-      </div>
+<h1 class="product-title"></h1>
 
-      <div class="thumbnail-images">
-        <img src="imagess/IMG_1603F.PNG" class="thumb">
-        <img src="imagess/IMG_1603B.PNG" class="thumb">
-      </div>
+<p class="product-price"></p>
 
-    </div>
+<p class="product-desc">
 
-     <!-- IMAGE COLUMN -->
-    <div class="product-images">
+Premium oversized cotton tee with high quality print.
+Streetwear aesthetic.
+Comfortable fit.
 
-      <div class="main-image">
-        <img id="mainProductImage" src="imagess/IMG_1606.PNG" alt="Product">
-      </div>
+</p>
 
-      <div class="thumbnail-images">
-        <img src="imagess/IMG_1606.PNG" class="thumb">
-        <img src="imagess/IMG_1607.PNG" class="thumb">
-      </div>
 
-    </div>
+<label>Select Size</label>
 
-      <!-- IMAGE COLUMN -->
-    <div class="product-images">
+<select class="size-select">
+<option>S</option>
+<option>M</option>
+<option>L</option>
+<option>XL</option>
+</select>
 
-      <div class="main-image">
-        <img id="mainProductImage" src="imagess/IMG_1609.PNG" alt="Product">
-      </div>
 
-      <div class="thumbnail-images">
-        <img src="imagess/IMG_1609.PNG" class="thumb">
-        <img src="imagess/IMG_1609.PNG" class="thumb">
-      </div>
+<br><br>
 
-    </div>
+<button class="add-cart-btn">
 
-    <!-- DETAILS COLUMN -->
-    <div class="product-details">
+Add to Cart
 
-      <h1 class="product-title">Emirates Oversized Tee</h1>
+</button>
 
-      <div class="product-rating">
-        ★★★★☆ <span>4.6 (128 ratings)</span>
-      </div>
+</div>
 
-      <p class="product-price">₹499</p>
 
-      <p class="product-desc">
-        Premium oversized cotton tee with high quality print.
-        Clean silhouette. Minimal aesthetic. Built for comfort.
-      </p>
-
-      <div class="product-options">
-        <label>Select Size</label>
-        <select class="size-select">
-          <option>S</option>
-          <option>M</option>
-          <option>L</option>
-          <option>XL</option>
-        </select>
-      </div>
-
-      <button class="btn-primary add-cart-btn">
-        Add to Cart
-      </button>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
-<!-- FOOTER -->
+
+
+
 <footer class="footer">
-  <div class="footer-content">
-    <div>
-      <h3>Outfiito</h3>
-      <p>Premium Streetwear. Bold Identity.</p>
 
-      <div class="footer-social">
-        <a href="#">Instagram</a>
-        <a href="#">Twitter</a>
-        <a href="#">Pinterest</a>
-      </div>
-    </div>
+<p>© 2026 Outfiito</p>
 
-    <div>
-      <p>© 2026 Outfiito. All Rights Reserved.</p>
-    </div>
-  </div>
 </footer>
+
 
 <script src="script.js"></script>
 <script src="product.js"></script>
