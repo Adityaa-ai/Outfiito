@@ -75,68 +75,71 @@ if (form) {
 
   form.addEventListener("submit", async function (e) {
 
-    e.preventDefault();
+  e.preventDefault();
 
-    if (cart.length === 0) {
-      alert("Your cart is empty.");
-      return;
-    }
+  if (cart.length === 0) {
+    alert("Your cart is empty.");
+    return;
+  }
 
-    const name = document.getElementById("name").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const address = document.getElementById("address").value.trim();
-    const pincode = document.getElementById("pincode").value.trim();
-    const paymentMethod = document.getElementById("paymentMethod").value;
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const pincode = document.getElementById("pincode").value.trim();
+  const paymentMethod = document.getElementById("paymentMethod").value;
 
-    if (!name || !phone || !address || !pincode || !paymentMethod) {
-      alert("Please fill all fields.");
-      return;
-    }
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
 
-    const total = cart.reduce((sum, item) => sum + item.price, 0);
+  const orderData = {
+    name,
+    phone,
+    address,
+    pincode,
+    items: cart,
+    total,
+    paymentMethod
+  };
 
-    const orderData = {
-      name,
-      phone,
-      address,
-      pincode,
-      items: cart,
-      total,
-      paymentMethod
-    };
+  const button = document.querySelector(".checkout-btn");
+  button.innerText = "Placing Order...";
+  button.disabled = true;
 
-    const button = document.querySelector(".checkout-btn");
-    button.innerText = "Placing Order...";
-    button.disabled = true;
+  try {
 
-    try {
+    const response = await fetch("https://outfiito-backend.onrender.com/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(orderData)
+    });
 
-      const response = await fetch("https://outfiito-backend.onrender.com/order", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(orderData)
-      });
+    const data = await response.json();
 
-      const data = await response.json();
+    if (data.success) {
 
-      if (data.success) {
-        localStorage.removeItem("cart");
-        window.location.href = "order_success.html";
-      } else {
-        alert("Order failed. Please try again.");
-        button.innerText = "Place Order";
-        button.disabled = false;
-      }
+      alert("Order placed successfully 🎉");
 
-    } catch (error) {
-      console.error(error);
-      alert("Server error. Please try again later.");
+      localStorage.removeItem("cart");
+
+      window.location.href = "order-success.html";
+
+    } else {
+
+      alert("Order failed.");
       button.innerText = "Place Order";
       button.disabled = false;
+
     }
 
-  });
+  } catch (error) {
 
+    console.error(error);
+    alert("Server error.");
+    button.innerText = "Place Order";
+    button.disabled = false;
+
+  }
+
+})
 }
