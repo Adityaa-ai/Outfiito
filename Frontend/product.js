@@ -114,3 +114,41 @@ function updateCartCount() {
 }
 
 updateCartCount();
+
+// ===============================
+// Review section
+// ===============================
+
+function loadReviews(){
+
+const reviews = JSON.parse(localStorage.getItem("reviews_"+productId)) || [];
+
+const container = document.getElementById("reviewsList");
+
+if(!container) return;
+
+container.innerHTML = reviews.map(r=>`
+<div class="review">${r}</div>
+`).join("");
+
+}
+
+function addReview(){
+
+const input = document.getElementById("reviewInput");
+
+if(!input.value.trim()) return;
+
+let reviews = JSON.parse(localStorage.getItem("reviews_"+productId)) || [];
+
+reviews.push(input.value);
+
+localStorage.setItem("reviews_"+productId, JSON.stringify(reviews));
+
+input.value="";
+
+loadReviews();
+
+}
+
+loadReviews();
