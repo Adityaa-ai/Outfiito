@@ -326,6 +326,10 @@ background:#222;
   font-weight: 500;
 }
 
+ .add-cart-btn {
+    width: 100%;
+  }
+  
 /* Mobile */
 
 @media (max-width: 768px) {
