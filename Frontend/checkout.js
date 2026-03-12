@@ -8,6 +8,10 @@ const cartItems = document.getElementById("cartItems");
 const totalAmount = document.getElementById("totalAmount");
 const form = document.getElementById("checkoutForm");
 
+let orderData = {};
+let total = 0;
+
+
 // ===============================
 // DISPLAY CART
 // ===============================
@@ -18,54 +22,35 @@ function renderCart() {
 
   if (cart.length === 0) {
     cartItems.innerHTML = "<p>Your cart is empty.</p>";
-    totalAmount.innerHTML = "";
+    totalAmount.innerText = "";
     return;
   }
 
-  let subtotal = 0;
+  total = 0;
 
-  cartItems.innerHTML = cart.map((item) => {
-
-    subtotal += item.price;
-
-    const parts = item.name.split(" - ");
-    const productName = parts[0];
-    const size = parts[1] || "";
+  cartItems.innerHTML = cart.map((item, i) => {
+    total += item.price;
 
     return `
       <div class="order-item">
-        <div class="order-left">
-          <div class="order-product-name">${productName}</div>
-          <div class="order-meta">Size: ${size}</div>
-        </div>
-        <div class="order-price">₹${item.price}</div>
+        <span>${item.name}</span>
+        <span>₹${item.price}</span>
       </div>
     `;
 
   }).join("");
 
-  const shipping = subtotal > 999 ? 0 : 49;
-  const total = subtotal + shipping;
-
   totalAmount.innerHTML = `
-    <div class="summary-line">
-      <span>Subtotal</span>
-      <span>₹${subtotal}</span>
-    </div>
-
-    <div class="summary-line">
-      <span>Shipping</span>
-      <span>${shipping === 0 ? "Free" : "₹" + shipping}</span>
-    </div>
-
-    <div class="summary-total">
+    <div class="order-total-line">
       <span>Total</span>
       <span>₹${total}</span>
     </div>
   `;
+
 }
 
 renderCart();
+
 
 // ===============================
 // PLACE ORDER
@@ -73,73 +58,145 @@ renderCart();
 
 if (form) {
 
-  form.addEventListener("submit", async function (e) {
+form.addEventListener("submit", async function (e) {
 
-  e.preventDefault();
+e.preventDefault();
 
-  if (cart.length === 0) {
-    alert("Your cart is empty.");
-    return;
-  }
+if (cart.length === 0) {
+alert("Cart is empty");
+return;
+}
 
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const address = document.getElementById("address").value.trim();
-  const pincode = document.getElementById("pincode").value.trim();
-  const paymentMethod = document.getElementById("paymentMethod").value;
+const name = document.getElementById("name").value.trim();
+const phone = document.getElementById("phone").value.trim();
+const address = document.getElementById("address").value.trim();
+const pincode = document.getElementById("pincode").value.trim();
+const paymentMethod = document.getElementById("paymentMethod").value;
 
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+orderData = {
+name,
+phone,
+address,
+pincode,
+items: cart,
+total,
+paymentMethod
+};
 
-  const orderData = {
-    name,
-    phone,
-    address,
-    pincode,
-    items: cart,
-    total,
-    paymentMethod
-  };
 
-  const button = document.querySelector(".checkout-btn");
-  button.innerText = "Placing Order...";
-  button.disabled = true;
+// ===============================
+// COD ORDER
+// ===============================
 
-  try {
+if (paymentMethod === "COD") {
 
-    const response = await fetch("https://outfiito-backend.onrender.com/order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(orderData)
-    });
+placeOrder();
 
-    const data = await response.json();
+}
 
-    if (data.success) {
 
-      alert("Order placed successfully 🎉");
+// ===============================
+// ONLINE PAYMENT (RAZORPAY)
+// ===============================
 
-      localStorage.removeItem("cart");
+if (paymentMethod === "ONLINE") {
 
-      window.location.href = "order-success.html";
+try {
 
-    } else {
+const res = await fetch("https://outfiito-backend.onrender.com/create-order", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({ amount: total })
+});
 
-      alert("Order failed.");
-      button.innerText = "Place Order";
-      button.disabled = false;
+const data = await res.json();
 
-    }
+const options = {
 
-  } catch (error) {
+key: "rzp_live_SQFPQzNYbprUQ7",
 
-    console.error(error);
-    alert("Server error.");
-    button.innerText = "Place Order";
-    button.disabled = false;
+amount: data.amount,
 
-  }
+currency: "INR",
+
+name: "Outfiito",
+
+description: "T-shirt Order",
+
+order_id: data.id,
+
+handler: function (response) {
+
+placeOrder();
+
+},
+
+theme: {
+color: "#000"
+}
+
+};
+
+const rzp = new Razorpay(options);
+rzp.open();
+
+} catch (err) {
+
+console.log(err);
+alert("Payment failed");
+
+}
+
+}
+
+});
+
+}
+
+
+// ===============================
+// SAVE ORDER TO DATABASE
+// ===============================
+
+function placeOrder() {
+
+fetch("https://outfiito-backend.onrender.com/order", {
+
+method: "POST",
+
+headers: {
+"Content-Type": "application/json"
+},
+
+body: JSON.stringify(orderData)
 
 })
+
+.then(res => res.json())
+
+.then(data => {
+
+if (data.success) {
+
+localStorage.removeItem("cart");
+
+window.location.href = "order_success.html";
+
+} else {
+
+alert("Order failed");
+
+}
+
+})
+
+.catch(err => {
+
+console.log(err);
+alert("Server error");
+
+});
+
 }
