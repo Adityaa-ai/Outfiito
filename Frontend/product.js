@@ -13,28 +13,36 @@ const products = [
   {
     id: 2,
     name: "Calm Bitch",
-    price: 599,
+    price: 499,
     front: "imagess/IMG_1602F.PNG",
     back: "imagess/IMG_1602B.PNG"
   },
   {
     id: 3,
     name: "Eagle",
-    price: 549,
+    price: 499,
     front: "imagess/IMG_1603F.PNG",
     back: "imagess/IMG_1603B.PNG"
   },
   {
     id: 4,
     name: "COHCO3",
-    price: 699,
+    price: 499,
     front: "imagess/IMG_1606.PNG",
     back: "imagess/IMG_1607.PNG"
   },
   {
     id: 5,
     name: "Unknown Saint",
-    price: 699,
+    price: 499,
+    front: "imagess/IMG_1609.PNG",
+    back: "imagess/IMG_1609.PNG"
+  },
+
+   {
+    id: 6,
+    name: "AOT",
+    price: 499,
     front: "imagess/IMG_1609.PNG",
     back: "imagess/IMG_1609.PNG"
   }
