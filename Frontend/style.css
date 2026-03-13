@@ -542,6 +542,62 @@ padding:10px 0;
   margin-top: 10px;
 }
 
+.remove-btn{
+background:#ff4d4d;
+color:white;
+border:none;
+padding:6px 12px;
+cursor:pointer;
+border-radius:6px;
+}
+
+.remove-btn:hover{
+background:#e63939;
+}
+
+.order-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+border-bottom:1px solid #eee;
+padding-bottom:10px;
+}
+
+.qty-controls{
+display:flex;
+align-items:center;
+gap:10px;
+margin-top:5px;
+}
+
+.qty-controls button{
+padding:4px 10px;
+border:none;
+background:#000;
+color:white;
+cursor:pointer;
+border-radius:4px;
+}
+
+.remove-btn{
+margin-left:10px;
+background:red;
+color:white;
+border:none;
+padding:4px 8px;
+cursor:pointer;
+border-radius:4px;
+}
+
+.order-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px 0;
+border-bottom:1px solid #eee;
+}
+
 /* Mobile */
 
 @media (max-width: 768px) {

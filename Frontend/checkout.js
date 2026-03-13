@@ -13,6 +13,37 @@ let total = 0;
 
 
 // ===============================
+// GROUP ITEMS WITH QUANTITY
+// ===============================
+
+function groupCartItems() {
+
+  const grouped = {};
+
+  cart.forEach(item => {
+
+    if (grouped[item.name]) {
+
+      grouped[item.name].qty += 1;
+
+    } else {
+
+      grouped[item.name] = {
+        name: item.name,
+        price: item.price,
+        qty: 1
+      };
+
+    }
+
+  });
+
+  return Object.values(grouped);
+
+}
+
+
+// ===============================
 // DISPLAY CART
 // ===============================
 
@@ -21,20 +52,40 @@ function renderCart() {
   if (!cartItems || !totalAmount) return;
 
   if (cart.length === 0) {
+
     cartItems.innerHTML = "<p>Your cart is empty.</p>";
     totalAmount.innerText = "";
     return;
+
   }
 
   total = 0;
 
-  cartItems.innerHTML = cart.map((item, i) => {
-    total += item.price;
+  const groupedItems = groupCartItems();
+
+  cartItems.innerHTML = groupedItems.map((item, i) => {
+
+    const itemTotal = item.price * item.qty;
+
+    total += itemTotal;
 
     return `
       <div class="order-item">
-        <span>${item.name}</span>
-        <span>₹${item.price}</span>
+
+        <div class="order-info">
+          <strong>${item.name}</strong>
+          <div class="qty-controls">
+            <button onclick="decreaseQty('${item.name}')">-</button>
+            <span>${item.qty}</span>
+            <button onclick="increaseQty('${item.name}')">+</button>
+          </div>
+        </div>
+
+        <div class="order-price">
+          ₹${itemTotal}
+          <button onclick="removeItem('${item.name}')" class="remove-btn">❌</button>
+        </div>
+
       </div>
     `;
 
@@ -53,6 +104,52 @@ renderCart();
 
 
 // ===============================
+// QUANTITY CONTROLS
+// ===============================
+
+function increaseQty(name) {
+
+  const item = cart.find(i => i.name === name);
+
+  if (item) {
+    cart.push({ name: item.name, price: item.price });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+
+}
+
+function decreaseQty(name) {
+
+  const index = cart.findIndex(i => i.name === name);
+
+  if (index > -1) {
+    cart.splice(index, 1);
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+
+}
+
+
+// ===============================
+// REMOVE ITEM COMPLETELY
+// ===============================
+
+function removeItem(name) {
+
+  cart = cart.filter(item => item.name !== name);
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  renderCart();
+
+}
+
+
+// ===============================
 // PLACE ORDER
 // ===============================
 
@@ -63,8 +160,10 @@ form.addEventListener("submit", async function (e) {
 e.preventDefault();
 
 if (cart.length === 0) {
+
 alert("Cart is empty");
 return;
+
 }
 
 const name = document.getElementById("name").value.trim();
@@ -140,6 +239,7 @@ color: "#000"
 };
 
 const rzp = new Razorpay(options);
+
 rzp.open();
 
 } catch (err) {
