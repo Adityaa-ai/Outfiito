@@ -306,11 +306,11 @@ background:#222;
   flex: 1;
 }
 
-.product-img img {
-  width: 100%;
-  max-height: 500px;
-  object-fit: contain;
-  transition: 0.4s ease;
+.product-img img{
+width:350px;
+height:420px;
+object-fit:cover;
+border-radius:10px;
 }
 
 .product-img img:hover {
