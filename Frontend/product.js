@@ -43,8 +43,8 @@ const products = [
     id: 6,
     name: "AOT",
     price: 499,
-    front: "imagess/IMG_1609.PNG",
-    back: "imagess/IMG_1609.PNG"
+    front: "imagess/IMG_1604F.PNG",
+    back: "imagess/IMG_1604B.PNG"
   }
 ];
 
