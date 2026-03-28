@@ -270,7 +270,7 @@ app.get("/orders", async (req, res) => {
 // ================================
 // 🔥 ROUTE HANDLER (IMPORTANT)
 // ================================
-app.get("*", (req, res) => {
+app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "../Frontend/index.html"));
 });
 
