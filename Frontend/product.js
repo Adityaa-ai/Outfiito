@@ -7,44 +7,44 @@ const products = [
     id: 1,
     name: "Emirates",
     price: 499,
-    front: "/imagess/IMG_1601F.PNG",
-    back: "/imagess/IMG_1601B.PNG"
+    front: "/images/IMG_1601F.PNG",
+    back: "/images/IMG_1601B.PNG"
   },
   {
     id: 2,
     name: "Calm Bitch",
     price: 499,
-    front: "/imagess/IMG_1602F.PNG",
-    back: "/imagess/IMG_1602B.PNG"
+    front: "/images/IMG_1602F.PNG",
+    back: "/images/IMG_1602B.PNG"
   },
   {
     id: 3,
     name: "Eagle",
     price: 499,
-    front: "/imagess/IMG_1603F.PNG",
-    back: "/imagess/IMG_1603B.PNG"
+    front: "/images/IMG_1603F.PNG",
+    back: "/images/IMG_1603B.PNG"
   },
   {
     id: 4,
     name: "COHCO3",
     price: 499,
-    front: "/imagess/IMG_1606.PNG",
-    back: "/imagess/IMG_1607.PNG"
+    front: "/images/IMG_1606.PNG",
+    back: "/images/IMG_1607.PNG"
   },
   {
     id: 5,
     name: "Unknown Saint",
     price: 499,
-    front: "/imagess/IMG_1609.PNG",
-    back: "/imagess/IMG_1609.PNG"
+    front: "/images/IMG_1609.PNG",
+    back: "/images/IMG_1609.PNG"
   },
 
    {
     id: 6,
     name: "AOT",
     price: 499,
-    front: "/imagess/IMG_1604F.PNG",
-    back: "/imagess/IMG_1604B.PNG"
+    front: "/images/IMG_1604F.PNG",
+    back: "/images/IMG_1604B.PNG"
   }
 ];
 
