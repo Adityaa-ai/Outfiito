@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const Razorpay = require("razorpay");
 const axios = require("axios");
+const path = require("path");
 
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
@@ -17,6 +18,11 @@ const app = express();
 // ================================
 app.use(cors());
 app.use(express.json());
+
+// ================================
+// 🔥 SERVE FRONTEND (MAIN FIX)
+// ================================
+app.use(express.static(path.join(__dirname, "../Frontend")));
 
 // ================================
 // CLOUDINARY SETUP
@@ -38,7 +44,7 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage });
 
 // ================================
-// MONGODB CONNECTION
+// MONGODB
 // ================================
 mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log("MongoDB Connected"))
@@ -79,7 +85,6 @@ app.post(
       });
 
       await product.save();
-
       res.json({ success: true, product });
 
     } catch (error) {
@@ -98,7 +103,7 @@ app.get("/products", async (req, res) => {
 });
 
 // ================================
-// RAZORPAY SETUP
+// RAZORPAY
 // ================================
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -106,7 +111,7 @@ const razorpay = new Razorpay({
 });
 
 // ================================
-// SHIPROCKET SETUP
+// SHIPROCKET
 // ================================
 let shiprocketToken = "";
 
@@ -184,20 +189,15 @@ async function createShipment(order) {
 // ORDER SCHEMA
 // ================================
 const OrderSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  phone: { type: String, required: true },
-  address: { type: String, required: true },
-  pincode: { type: String, required: true },
-  items: { type: Array, required: true },
-  total: { type: Number, required: true },
-
-  paymentMethod: { type: String, required: true },
-  paymentStatus: { type: String, required: true },
-
-  date: {
-    type: Date,
-    default: Date.now
-  }
+  name: String,
+  phone: String,
+  address: String,
+  pincode: String,
+  items: Array,
+  total: Number,
+  paymentMethod: String,
+  paymentStatus: String,
+  date: { type: Date, default: Date.now }
 });
 
 const Order = mongoose.model("Order", OrderSchema);
@@ -217,13 +217,6 @@ app.post("/order", async (req, res) => {
       paymentMethod
     } = req.body;
 
-    if (!name || !phone || !address || !items) {
-      return res.status(400).json({
-        success: false,
-        message: "Missing required fields"
-      });
-    }
-
     const newOrder = new Order({
       name,
       phone,
@@ -237,35 +230,14 @@ app.post("/order", async (req, res) => {
 
     await newOrder.save();
 
-    // 🚀 background shipment (no freeze)
+    // 🚀 background shipment
     createShipment(newOrder);
 
-    res.status(201).json({
-      success: true,
-      message: "Order placed successfully",
-      order: newOrder
-    });
+    res.json({ success: true });
 
   } catch (error) {
     console.log(error);
-
-    res.status(500).json({
-      success: false,
-      message: "Server Error"
-    });
-  }
-});
-
-// ================================
-// GET ORDERS
-// ================================
-app.get("/orders", async (req, res) => {
-  try {
-    const orders = await Order.find().sort({ date: -1 });
-    res.json(orders);
-
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching orders" });
+    res.status(500).json({ success: false });
   }
 });
 
@@ -274,27 +246,39 @@ app.get("/orders", async (req, res) => {
 // ================================
 app.post("/create-order", async (req, res) => {
   try {
-    const amount = req.body.amount;
-
     const order = await razorpay.orders.create({
-      amount: amount * 100,
-      currency: "INR",
-      receipt: "order_" + Date.now()
+      amount: req.body.amount * 100,
+      currency: "INR"
     });
 
     res.json(order);
 
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error creating Razorpay order");
+    res.status(500).send("Error");
   }
 });
 
 // ================================
-// SERVER START
+// GET ORDERS
+// ================================
+app.get("/orders", async (req, res) => {
+  const orders = await Order.find().sort({ date: -1 });
+  res.json(orders);
+});
+
+// ================================
+// 🔥 ROUTE HANDLER (IMPORTANT)
+// ================================
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../Frontend/index.html"));
+});
+
+// ================================
+// START SERVER
 // ================================
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log("Server running on port " + PORT);
 });
