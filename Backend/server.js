@@ -2,11 +2,88 @@ require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
+const app = express();
 const cors = require("cors");
 const Razorpay = require("razorpay");
 const axios = require("axios");
 
-const app = express();
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "outfiito_products",
+    allowed_formats: ["jpg","png","jpeg"]
+  }
+});
+
+const upload = multer({ storage: storage });
+
+const ProductSchema = new mongoose.Schema({
+
+name: String,
+price: Number,
+description: String,
+frontImage: String,
+backImage: String,
+stock: Number
+
+});
+
+const Product = mongoose.model("Product", ProductSchema);
+
+app.post(
+"/add-product",
+upload.fields([
+  { name: "frontImage" },
+  { name: "backImage" }
+]),
+async (req,res)=>{
+
+try{
+
+const product = new Product({
+
+name: req.body.name,
+price: req.body.price,
+description: req.body.description,
+stock: req.body.stock,
+
+frontImage: req.files.frontImage[0].path,
+backImage: req.files.backImage[0].path
+
+});
+
+await product.save();
+
+res.json({success:true,product});
+
+}catch(error){
+
+console.log(error);
+res.status(500).json({success:false});
+
+}
+
+});
+
+app.get("/products", async (req,res)=>{
+
+const products = await Product.find();
+
+res.json(products);
+
+});
+
+
 
 app.use(cors());
 app.use(express.json());
@@ -160,51 +237,73 @@ const Order = mongoose.model("Order",OrderSchema);
    Create Order (COD + ONLINE)
 ================================ */
 
-app.post("/order",async(req,res)=>{
+app.post("/order", async (req, res) => {
+  try {
 
-try{
+    const {
+      name,
+      phone,
+      address,
+      pincode,
+      items,
+      total,
+      paymentMethod
+    } = req.body;
 
-const{
-name,
-phone,
-address,
-pincode,
-items,
-total,
-paymentMethod
-}=req.body;
+    if (!name || !phone || !address || !items) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields"
+      });
+    }
 
-let paymentStatus="Pending";
+    let paymentStatus = "Pending";
 
-if(paymentMethod==="ONLINE"){
-paymentStatus="Paid";
-}
+    const newOrder = new Order({
+      name,
+      phone,
+      address,
+      pincode,
+      items,
+      total,
+      paymentMethod,
+      paymentStatus
+    });
 
-const newOrder=new Order({
+    await newOrder.save();
 
-name,
-phone,
-address,
-pincode,
-items,
-total,
-paymentMethod,
-paymentStatus
+    // 🚀 don't block response
+    createShipment(newOrder);
 
+    res.status(201).json({
+      success: true,
+      message: "Order placed successfully",
+      order: newOrder
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Server Error"
+    });
+  }
 });
 
 await newOrder.save();
 
-// create shipment automatically
-await createShipment(newOrder);
+// 🚀 Don't block response (this was causing freeze)
+createShipment(newOrder);
 
 res.status(201).json({
-success:true,
-message:"Order placed successfully",
-order:newOrder
+  success: true,
+  message: "Order placed successfully",
+  order: newOrder
 });
 
-}catch(error){
+
+catch(error){
 
 console.log(error);
 
@@ -215,7 +314,7 @@ message:"Server Error"
 
 }
 
-});
+
 
 /* ================================
    Get All Orders (Admin)

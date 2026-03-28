@@ -2,7 +2,9 @@
 // LOAD CART
 // ===============================
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let buyNow = JSON.parse(localStorage.getItem("buyNow"));
+
+let cart = buyNow || JSON.parse(localStorage.getItem("cart")) || [];
 
 const cartItems = document.getElementById("cartItems");
 const totalAmount = document.getElementById("totalAmount");
@@ -69,25 +71,28 @@ function renderCart() {
 
     total += itemTotal;
 
-    return `
-      <div class="order-item">
+   return `
+  <div class="order-item">
 
-        <div class="order-info">
-          <strong>${item.name}</strong>
-          <div class="qty-controls">
-            <button onclick="decreaseQty('${item.name}')">-</button>
-            <span>${item.qty}</span>
-            <button onclick="increaseQty('${item.name}')">+</button>
-          </div>
-        </div>
+    <img src="${item.image}" class="order-img" width="60" />
 
-        <div class="order-price">
-          ₹${itemTotal}
-          <button onclick="removeItem('${item.name}')" class="remove-btn">❌</button>
-        </div>
-
+    <div class="order-info">
+      <strong>${item.name}</strong>
+      <div class="qty-controls">
+        <button onclick="decreaseQty('${item.name}')">-</button>
+        <span>${item.qty}</span>
+        <button onclick="increaseQty('${item.name}')">+</button>
       </div>
-    `;
+    </div>
+
+    <div class="order-price">
+      ₹${itemTotal}
+      <button onclick="removeItem('${item.name}')" class="remove-btn">❌</button>
+    </div>
+
+  </div>
+`;
+
 
   }).join("");
 
@@ -112,7 +117,11 @@ function increaseQty(name) {
   const item = cart.find(i => i.name === name);
 
   if (item) {
-    cart.push({ name: item.name, price: item.price });
+   cart.push({
+  name: item.name,
+  price: item.price,
+  image: item.image   // 🔥 ADD THIS
+});
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
@@ -228,7 +237,9 @@ order_id: data.id,
 
 handler: function (response) {
 
-placeOrder();
+  orderData.paymentId = response.razorpay_payment_id;
+
+  placeOrder();
 
 },
 
@@ -239,6 +250,10 @@ color: "#000"
 };
 
 const rzp = new Razorpay(options);
+
+rzp.on('payment.failed', function (response) {
+  alert("Payment failed. Try again.");
+});
 
 rzp.open();
 
@@ -260,43 +275,40 @@ alert("Payment failed");
 // SAVE ORDER TO DATABASE
 // ===============================
 
-function placeOrder() {
+async function placeOrder() {
 
-fetch("https://outfiito-backend.onrender.com/order", {
+  try {
 
-method: "POST",
+    const res = await fetch("https://outfiito-backend.onrender.com/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(orderData)
+    });
 
-headers: {
-"Content-Type": "application/json"
-},
+    const data = await res.json();
 
-body: JSON.stringify(orderData)
+    if (data.success) {
 
-})
+      localStorage.removeItem("cart");
+      localStorage.removeItem("buyNow");
 
-.then(res => res.json())
+      window.location.href = "order_success.html";
 
-.then(data => {
+    } else {
 
-if (data.success) {
+      alert("Order failed");
+      document.querySelector(".checkout-btn").disabled = false;
 
-localStorage.removeItem("cart");
+    }
 
-window.location.href = "order_success.html";
+  } catch (err) {
 
-} else {
+    console.log(err);
+    alert("Server error");
+    document.querySelector(".checkout-btn").disabled = false;
 
-alert("Order failed");
-
-}
-
-})
-
-.catch(err => {
-
-console.log(err);
-alert("Server error");
-
-});
+  }
 
 }

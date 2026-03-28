@@ -94,13 +94,34 @@ document.querySelector(".add-cart-btn").addEventListener("click", () => {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   cart.push({
-    name: product.name + " - " + size,
-    price: product.price
-  });
+  name: product.name + " - " + size,
+  price: product.price,
+  image: product.front   // 🔥 ADD THIS LINE
+});
 
   localStorage.setItem("cart", JSON.stringify(cart));
 
   alert("Added to cart!");
+
+});
+
+// ===============================
+// BUY NOW
+// ===============================
+
+document.querySelector(".buy-now-btn").addEventListener("click", () => {
+
+  const size = document.querySelector(".size-select").value;
+
+  const buyNowItem = [{
+    name: product.name + " - " + size,
+    price: product.price,
+    image: product.front
+  }];
+
+  localStorage.setItem("buyNow", JSON.stringify(buyNowItem));
+
+  window.location.href = "checkout.html";
 
 });
 
