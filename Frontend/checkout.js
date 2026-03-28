@@ -294,7 +294,7 @@ async function placeOrder() {
       localStorage.removeItem("cart");
       localStorage.removeItem("buyNow");
 
-      window.location.href = "order_success.html";
+      window.location.href = "order-success.html";
 
     } else {
 

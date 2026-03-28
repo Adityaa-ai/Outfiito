@@ -848,3 +848,18 @@ color:white;
 text-decoration:none;
 border-radius:6px;
 }
+
+.buy-now-btn {
+  background: black;
+  color: white;
+  padding: 15px;
+  width: 100%;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.buy-now-btn:hover {
+  background: #333;
+}
