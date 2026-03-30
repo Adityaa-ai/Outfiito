@@ -7,10 +7,6 @@ const Razorpay = require("razorpay");
 const axios = require("axios");
 const path = require("path");
 
-const multer = require("multer");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const cloudinary = require("cloudinary").v2;
-
 const app = express();
 
 // ================================
@@ -20,40 +16,21 @@ app.use(cors());
 app.use(express.json());
 
 // ================================
-// 🔥 SERVE FRONTEND (MAIN FIX)
+// SERVE FRONTEND
 // ================================
 app.use(express.static(path.join(__dirname, "../Frontend")));
 
 // ================================
-// CLOUDINARY SETUP
-// ================================
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_KEY,
-  api_secret: process.env.CLOUDINARY_SECRET
-});
-
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "outfiito_products",
-    allowed_formats: ["jpg", "png", "jpeg"]
-  }
-});
-
-const upload = multer({ storage });
-
-// ================================
-// MONGODB
+// DATABASE
 // ================================
 mongoose.connect(process.env.MONGO_URL)
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log("Mongo Error:", err));
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch(err => console.log("❌ MongoDB Error:", err));
 
 // ================================
-// PRODUCT SCHEMA
+// MODELS
 // ================================
-const ProductSchema = new mongoose.Schema({
+const Product = mongoose.model("Product", {
   name: String,
   price: Number,
   description: String,
@@ -62,44 +39,16 @@ const ProductSchema = new mongoose.Schema({
   stock: Number
 });
 
-const Product = mongoose.model("Product", ProductSchema);
-
-// ================================
-// ADD PRODUCT
-// ================================
-app.post(
-  "/add-product",
-  upload.fields([
-    { name: "frontImage" },
-    { name: "backImage" }
-  ]),
-  async (req, res) => {
-    try {
-      const product = new Product({
-        name: req.body.name,
-        price: req.body.price,
-        description: req.body.description,
-        stock: req.body.stock,
-        frontImage: req.files.frontImage[0].path,
-        backImage: req.files.backImage[0].path
-      });
-
-      await product.save();
-      res.json({ success: true, product });
-
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ success: false });
-    }
-  }
-);
-
-// ================================
-// GET PRODUCTS
-// ================================
-app.get("/products", async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
+const Order = mongoose.model("Order", {
+  name: String,
+  phone: String,
+  address: String,
+  pincode: String,
+  items: Array,
+  total: Number,
+  paymentMethod: String,
+  paymentStatus: String,
+  date: { type: Date, default: Date.now }
 });
 
 // ================================
@@ -117,6 +66,8 @@ let shiprocketToken = "";
 
 async function getShiprocketToken() {
   try {
+    console.log("📧 Email:", process.env.SHIPROCKET_EMAIL);
+
     const response = await axios.post(
       "https://apiv2.shiprocket.in/v1/external/auth/login",
       {
@@ -127,8 +78,12 @@ async function getShiprocketToken() {
 
     shiprocketToken = response.data.token;
 
+    console.log("✅ Token Generated");
+
   } catch (error) {
-    console.log("Shiprocket login error:", error.message);
+    console.log("❌ Login Error:",
+      error.response?.data || error.message
+    );
   }
 }
 
@@ -138,7 +93,7 @@ async function createShipment(order) {
       await getShiprocketToken();
     }
 
-    await axios.post(
+    const response = await axios.post(
       "https://apiv2.shiprocket.in/v1/external/orders/create/adhoc",
       {
         order_id: order._id.toString(),
@@ -157,7 +112,7 @@ async function createShipment(order) {
         order_items: order.items.map(item => ({
           name: item.name,
           sku: "TSHIRT",
-          units: 1,
+          units: item.qty || 1,
           selling_price: item.price
         })),
 
@@ -178,33 +133,40 @@ async function createShipment(order) {
       }
     );
 
-    console.log("Shipment created");
+    console.log("🚀 Shipment Created:", response.data);
 
   } catch (error) {
-    console.log("Shipment error:", error.message);
+    console.log("❌ Shipment Error:",
+      error.response?.data || error.message
+    );
   }
 }
 
 // ================================
-// ORDER SCHEMA
+// ROUTES
 // ================================
-const OrderSchema = new mongoose.Schema({
-  name: String,
-  phone: String,
-  address: String,
-  pincode: String,
-  items: Array,
-  total: Number,
-  paymentMethod: String,
-  paymentStatus: String,
-  date: { type: Date, default: Date.now }
+
+// ➤ Get Products (static or DB later)
+app.get("/products", async (req, res) => {
+  res.json([]); // you can ignore for now
 });
 
-const Order = mongoose.model("Order", OrderSchema);
+// ➤ Razorpay Order
+app.post("/create-order", async (req, res) => {
+  try {
+    const order = await razorpay.orders.create({
+      amount: req.body.amount * 100,
+      currency: "INR"
+    });
 
-// ================================
-// PLACE ORDER
-// ================================
+    res.json(order);
+
+  } catch (error) {
+    res.status(500).json({ error: "Razorpay Error" });
+  }
+});
+
+// ➤ Place Order
 app.post("/order", async (req, res) => {
   try {
     const {
@@ -230,54 +192,33 @@ app.post("/order", async (req, res) => {
 
     await newOrder.save();
 
-    // 🚀 background shipment
     createShipment(newOrder);
 
     res.json({ success: true });
 
   } catch (error) {
-    console.log(error);
     res.status(500).json({ success: false });
   }
 });
 
-// ================================
-// CREATE RAZORPAY ORDER
-// ================================
-app.post("/create-order", async (req, res) => {
-  try {
-    const order = await razorpay.orders.create({
-      amount: req.body.amount * 100,
-      currency: "INR"
-    });
-
-    res.json(order);
-
-  } catch (err) {
-    console.log(err);
-    res.status(500).send("Error");
-  }
-});
-
-// ================================
-// GET ORDERS
-// ================================
+// ➤ Admin Orders
 app.get("/orders", async (req, res) => {
   const orders = await Order.find().sort({ date: -1 });
   res.json(orders);
 });
 
 // ================================
-// 🔥 ROUTE HANDLER (IMPORTANT)
+// FALLBACK
 // ================================
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, "../Frontend/index.html"));
 });
+
 // ================================
 // START SERVER
 // ================================
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log("Server running on port " + PORT);
+  console.log("🔥 Server running on port " + PORT);
 });
