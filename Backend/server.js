@@ -98,6 +98,10 @@ async function createShipment(order) {
 
     console.log("📦 Sending order to Shiprocket...");
 
+    const nameParts = order.name.split(" ");
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(" ") || "User";
+
     const response = await axios.post(
       "https://apiv2.shiprocket.in/v1/external/orders/create/adhoc",
       {
@@ -106,7 +110,10 @@ async function createShipment(order) {
 
         pickup_location: "Home",
 
-        billing_customer_name: order.name,
+        billing_customer_name: firstName,
+        billing_last_name: lastName,
+        shipping_is_billing: true,
+
         billing_phone: order.phone,
         billing_address: order.address,
         billing_pincode: order.pincode,
@@ -147,33 +154,9 @@ async function createShipment(order) {
   }
 }
 
-// ================================
-// ROUTES
-// ================================
-
-// ➤ Get Products (static or DB later)
-app.get("/products", async (req, res) => {
-  res.json([]); // you can ignore for now
-});
-
-// ➤ Razorpay Order
-app.post("/create-order", async (req, res) => {
-  try {
-    const order = await razorpay.orders.create({
-      amount: req.body.amount * 100,
-      currency: "INR"
-    });
-
-    res.json(order);
-
-  } catch (error) {
-    res.status(500).json({ error: "Razorpay Error" });
-  }
-});
-
-// ➤ Place Order
 app.post("/order", async (req, res) => {
   try {
+
     const {
       name,
       phone,
@@ -197,13 +180,15 @@ app.post("/order", async (req, res) => {
 
     await newOrder.save();
 
-   console.log("🔥 ORDER RECEIVED:", newOrder);
+    console.log("🔥 ORDER RECEIVED:", newOrder);
 
-  createShipment(newOrder);
+    // 🔥 CALL SHIPROCKET (DON’T AWAIT)
+    createShipment(newOrder);
 
     res.json({ success: true });
 
   } catch (error) {
+    console.log(error);
     res.status(500).json({ success: false });
   }
 });
