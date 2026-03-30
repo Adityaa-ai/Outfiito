@@ -88,10 +88,15 @@ async function getShiprocketToken() {
 }
 
 async function createShipment(order) {
+  console.log("🚀 createShipment CALLED");
+
   try {
     if (!shiprocketToken) {
+      console.log("🔑 Getting token...");
       await getShiprocketToken();
     }
+
+    console.log("📦 Sending order to Shiprocket...");
 
     const response = await axios.post(
       "https://apiv2.shiprocket.in/v1/external/orders/create/adhoc",
@@ -133,10 +138,10 @@ async function createShipment(order) {
       }
     );
 
-    console.log("🚀 Shipment Created:", response.data);
+    console.log("✅ SHIPROCKET SUCCESS:", response.data);
 
   } catch (error) {
-    console.log("❌ Shipment Error:",
+    console.log("❌ SHIPROCKET ERROR:",
       error.response?.data || error.message
     );
   }
@@ -192,7 +197,9 @@ app.post("/order", async (req, res) => {
 
     await newOrder.save();
 
-    createShipment(newOrder);
+   console.log("🔥 ORDER RECEIVED:", newOrder);
+
+  createShipment(newOrder);
 
     res.json({ success: true });
 
