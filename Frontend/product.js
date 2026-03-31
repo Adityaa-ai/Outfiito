@@ -1,56 +1,20 @@
+javascript
 // ===============================
 // PRODUCT DATA
 // ===============================
 
 const products = [
-  {
-    id: 1,
-    name: "Emirates",
-    price: 499,
-    front: "/images/IMG_1601F.PNG",
-    back: "/images/IMG_1601B.PNG"
-  },
-  {
-    id: 2,
-    name: "Calm Bitch",
-    price: 499,
-    front: "/images/IMG_1602F.PNG",
-    back: "/images/IMG_1602B.PNG"
-  },
-  {
-    id: 3,
-    name: "Eagle",
-    price: 499,
-    front: "/images/IMG_1603F.PNG",
-    back: "/images/IMG_1603B.PNG"
-  },
-  {
-    id: 4,
-    name: "COHCO3",
-    price: 499,
-    front: "/images/IMG_1606.PNG",
-    back: "/images/IMG_1607.PNG"
-  },
-  {
-    id: 5,
-    name: "Unknown Saint",
-    price: 499,
-    front: "/images/IMG_1609.PNG",
-    back: "/images/IMG_1609.PNG"
-  },
-
-   {
-    id: 6,
-    name: "AOT",
-    price: 499,
-    front: "/images/IMG_1604F.PNG",
-    back: "/images/IMG_1604B.PNG"
-  }
+  { id: 1, name: "Emirates", price: 499, front: "/images/IMG_1601F.PNG", back: "/images/IMG_1601B.PNG" },
+  { id: 2, name: "Calm Bitch", price: 499, front: "/images/IMG_1602F.PNG", back: "/images/IMG_1602B.PNG" },
+  { id: 3, name: "Eagle", price: 499, front: "/images/IMG_1603F.PNG", back: "/images/IMG_1603B.PNG" },
+  { id: 4, name: "COHCO3", price: 499, front: "/images/IMG_1606.PNG", back: "/images/IMG_1607.PNG" },
+  { id: 5, name: "Unknown Saint", price: 499, front: "/images/IMG_1609.PNG", back: "/images/IMG_1609.PNG" },
+  { id: 6, name: "AOT", price: 499, front: "/images/IMG_1604F.PNG", back: "/images/IMG_1604B.PNG" }
 ];
 
 
 // ===============================
-// GET PRODUCT ID FROM URL
+// GET PRODUCT FROM URL
 // ===============================
 
 const params = new URLSearchParams(window.location.search);
@@ -72,14 +36,12 @@ if (product) {
   const frontThumb = document.getElementById("frontThumb");
   const backThumb = document.getElementById("backThumb");
 
-  mainImage.src = product.front;
+  if (mainImage) mainImage.src = product.front;
+  if (frontThumb) frontThumb.src = product.front;
+  if (backThumb) backThumb.src = product.back;
 
-  frontThumb.src = product.front;
-  backThumb.src = product.back;
-
-  frontThumb.onclick = () => mainImage.src = product.front;
-  backThumb.onclick = () => mainImage.src = product.back;
-
+  if (frontThumb) frontThumb.onclick = () => mainImage.src = product.front;
+  if (backThumb) backThumb.onclick = () => mainImage.src = product.back;
 }
 
 
@@ -87,43 +49,74 @@ if (product) {
 // ADD TO CART
 // ===============================
 
-document.querySelector(".add-cart-btn").addEventListener("click", () => {
+const addBtn = document.querySelector(".add-cart-btn");
 
-  const size = document.querySelector(".size-select").value;
+if (addBtn) {
+  addBtn.addEventListener("click", () => {
 
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if (!product) {
+      alert("Product not found");
+      return;
+    }
 
-  cart.push({
-  name: product.name + " - " + size,
-  price: product.price,
-  image: product.front   // 🔥 ADD THIS LINE
-});
+    const size = document.querySelector(".size-select")?.value;
 
-  localStorage.setItem("cart", JSON.stringify(cart));
+    if (!size) {
+      alert("Please select size");
+      return;
+    }
 
-  alert("Added to cart!");
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-});
+    const item = {
+      name: product.name + " - " + size,
+      price: product.price,
+      image: product.front
+    };
+
+    cart.push(item);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    console.log("🛒 CART SAVED:", cart);
+
+    alert("Added to cart!");
+  });
+}
+
 
 // ===============================
 // BUY NOW
 // ===============================
 
-document.querySelector(".buy-now-btn").addEventListener("click", () => {
+const buyBtn = document.querySelector(".buy-now-btn");
 
-  const size = document.querySelector(".size-select").value;
+if (buyBtn) {
+  buyBtn.addEventListener("click", () => {
 
-  const buyNowItem = [{
-    name: product.name + " - " + size,
-    price: product.price,
-    image: product.front
-  }];
+    if (!product) {
+      alert("Product not found");
+      return;
+    }
 
-  localStorage.setItem("buyNow", JSON.stringify(buyNowItem));
+    const size = document.querySelector(".size-select")?.value;
 
-  window.location.href = "checkout.html";
+    if (!size) {
+      alert("Please select size");
+      return;
+    }
 
-});
+    const buyNowItem = [{
+      name: product.name + " - " + size,
+      price: product.price,
+      image: product.front
+    }];
+
+    localStorage.setItem("buyNow", JSON.stringify(buyNowItem));
+
+    window.location.href = "checkout.html";
+  });
+}
 
 
 // ===============================
@@ -131,53 +124,47 @@ document.querySelector(".buy-now-btn").addEventListener("click", () => {
 // ===============================
 
 function updateCartCount() {
-
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
   const cartCount = document.getElementById("cartCount");
 
   if (cartCount) {
     cartCount.innerText = cart.length;
   }
-
 }
 
 updateCartCount();
 
+
 // ===============================
-// Review section
+// REVIEWS
 // ===============================
 
-function loadReviews(){
+function loadReviews() {
+  const reviews = JSON.parse(localStorage.getItem("reviews_" + productId)) || [];
+  const container = document.getElementById("reviewsList");
 
-const reviews = JSON.parse(localStorage.getItem("reviews_"+productId)) || [];
+  if (!container) return;
 
-const container = document.getElementById("reviewsList");
-
-if(!container) return;
-
-container.innerHTML = reviews.map(r=>`
-<div class="review">${r}</div>
-`).join("");
-
+  container.innerHTML = reviews.map(r => `
+    <div class="review">${r}</div>
+  `).join("");
 }
 
-function addReview(){
+function addReview() {
+  const input = document.getElementById("reviewInput");
 
-const input = document.getElementById("reviewInput");
+  if (!input || !input.value.trim()) return;
 
-if(!input.value.trim()) return;
+  let reviews = JSON.parse(localStorage.getItem("reviews_" + productId)) || [];
 
-let reviews = JSON.parse(localStorage.getItem("reviews_"+productId)) || [];
+  reviews.push(input.value);
 
-reviews.push(input.value);
+  localStorage.setItem("reviews_" + productId, JSON.stringify(reviews));
 
-localStorage.setItem("reviews_"+productId, JSON.stringify(reviews));
+  input.value = "";
 
-input.value="";
-
-loadReviews();
-
+  loadReviews();
 }
 
 loadReviews();
+
