@@ -1,10 +1,22 @@
-```javascript
+javascript
 // ===============================
 // GLOBAL VARIABLES
 // ===============================
 
-let buyNow = JSON.parse(localStorage.getItem("buyNow"));
-let cart = buyNow || JSON.parse(localStorage.getItem("cart")) || [];
+// ✅ FIXED CART LOGIC
+let cart = [];
+
+const buyNow = JSON.parse(localStorage.getItem("buyNow"));
+const savedCart = JSON.parse(localStorage.getItem("cart"));
+
+if (buyNow && buyNow.length > 0) {
+  cart = buyNow;
+  localStorage.removeItem("buyNow"); // important
+} else if (savedCart && savedCart.length > 0) {
+  cart = savedCart;
+}
+
+console.log("🛒 CART:", cart);
 
 const cartItems = document.getElementById("cartItems");
 const totalAmount = document.getElementById("totalAmount");
@@ -61,7 +73,7 @@ function renderCart() {
     const itemTotal = item.price * item.qty;
     total += itemTotal;
 
-    return '
+    return `
       <div class="order-item">
 
         <img src="${item.image || '/images/IMG_1603F.PNG'}" width="60" />
@@ -83,15 +95,17 @@ function renderCart() {
 
       </div>
     `;
-  ;join("");
+  }).join(""); // ✅ FIXED
 
-  totalAmount.innerHTML = `<h3>Total: ₹${total}</h3>`;
+  totalAmount.innerHTML = '<h3>Total: ₹${total}</h3>';
+}
 
+// ✅ CALL OUTSIDE FUNCTION
 renderCart();
 
 
 // ===============================
-// GLOBAL FUNCTIONS (IMPORTANT)
+// GLOBAL FUNCTIONS
 // ===============================
 
 window.increaseQty = function(name) {
@@ -159,18 +173,12 @@ if (form) {
       paymentMethod
     };
 
-    // ===============================
     // COD
-    // ===============================
-
     if (paymentMethod === "COD") {
       placeOrder();
     }
 
-    // ===============================
-    // ONLINE PAYMENT
-    // ===============================
-
+    // ONLINE
     if (paymentMethod === "ONLINE") {
 
       try {
