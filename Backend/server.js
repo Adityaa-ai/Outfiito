@@ -135,6 +135,31 @@ async function createShiprocketOrder(order) {
 }
 
 // ================================
+// CREATE RAZORPAY ORDER
+// ================================
+app.post("/create-order", async (req, res) => {
+  try {
+    const { amount } = req.body;
+
+    const options = {
+      amount: amount * 100, // convert to paise
+      currency: "INR",
+      receipt: "receipt_" + Date.now()
+    };
+
+    const order = await razorpay.orders.create(options);
+
+    console.log("✅ Razorpay Order Created:", order);
+
+    res.json(order);
+
+  } catch (err) {
+    console.log("❌ Razorpay Error:", err);
+    res.status(500).json({ error: "Failed to create Razorpay order" });
+  }
+});
+
+// ================================
 // ORDER ROUTE
 // ================================
 app.post("/order", async (req, res) => {
