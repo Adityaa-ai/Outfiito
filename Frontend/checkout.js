@@ -96,7 +96,7 @@ function renderCart() {
     `;
   }).join(""); // ✅ FIXED
 
-  totalAmount.innerHTML = '<h3>Total: ₹${total}</h3>';
+  totalAmount.innerHTML = `<h3>Total: ₹${total}</h3>`;;
 }
 
 // ✅ CALL OUTSIDE FUNCTION
@@ -224,35 +224,4 @@ if (form) {
 // ===============================
 // PLACE ORDER
 // ===============================
-
-async function placeOrder() {
-
-  try {
-
-    const res = await fetch("https://outfiito-backend.onrender.com/order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(orderData)
-    });
-
-    const data = await res.json();
-
-    if (data.success) {
-
-      localStorage.removeItem("cart");
-      localStorage.removeItem("buyNow");
-
-      window.location.href = "order-success.html";
-
-    } else {
-      alert("Order failed");
-    }
-
-  } catch (err) {
-    console.log(err);
-    alert("Server error");
-  }
-}
 
