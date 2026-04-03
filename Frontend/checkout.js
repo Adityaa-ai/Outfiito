@@ -3,6 +3,8 @@
 // ===============================
 
 // ✅ FIXED CART LOGIC
+document.addEventListener("DOMContentLoaded", () =>
+   {
 let cart = [];
 
 const buyNow = JSON.parse(localStorage.getItem("buyNow"));
@@ -145,10 +147,15 @@ window.removeItem = function(name) {
 // FORM SUBMIT
 // ===============================
 
-if (form) {
+
+
+  if (form) {
 
   form.addEventListener("submit", async function (e) {
 
+    console.log("🔥 FORM SUBMITTED"); // 👈 ADD THIS LINE HERE
+
+    
     e.preventDefault();
 
     if (cart.length === 0) {
@@ -208,6 +215,8 @@ if (form) {
           }
         };
 
+        
+
         const rzp = new window.Razorpay(options);
         rzp.open();
 
@@ -258,3 +267,4 @@ window.placeOrder = async function () {
   }
 
 };
+});
