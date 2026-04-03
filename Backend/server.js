@@ -87,74 +87,80 @@ async function getShiprocketToken() {
   }
 }
 
-async function createShipment(order) {
-  console.log("🚀 createShipment CALLED");
+async function createShiprocketOrder(order) {
 
   try {
-    if (!shiprocketToken) {
-      console.log("🔑 Getting token...");
-      await getShiprocketToken();
-    }
+    console.log("📦 Sending to Shiprocket...");
 
-    console.log("📦 Sending order to Shiprocket...");
-
-    const nameParts = order.name.split(" ");
-    const firstName = nameParts[0];
-    const lastName = nameParts.slice(1).join(" ") || "User";
+    const token = await getShiprocketToken();
 
     const response = await axios.post(
       "https://apiv2.shiprocket.in/v1/external/orders/create/adhoc",
       {
-        order_id: order._id.toString(),
+        order_id: "ORDER_" + Date.now(),
         order_date: new Date(),
 
-        pickup_location: "Home",
+        billing_customer_name: order.name,
+        billing_last_name: "User",
 
-        billing_customer_name: firstName,
-        billing_last_name: lastName,
-        shipping_is_billing: true,
-
-        billing_phone: order.phone,
         billing_address: order.address,
-        billing_pincode: order.pincode,
         billing_city: "Mumbai",
+        billing_pincode: order.pincode,
         billing_state: "Maharashtra",
         billing_country: "India",
+        billing_phone: order.phone,
+
+        shipping_is_billing: true,
 
         order_items: order.items.map(item => ({
           name: item.name,
-          sku: "TSHIRT",
-          units: item.qty || 1,
+          sku: item.name,
+          units: 1,
           selling_price: item.price
         })),
 
-        payment_method:
-          order.paymentMethod === "COD" ? "COD" : "Prepaid",
-
+        payment_method: order.paymentMethod === "COD" ? "COD" : "Prepaid",
         sub_total: order.total,
-
         length: 10,
         breadth: 10,
-        height: 2,
+        height: 10,
         weight: 0.5
       },
       {
         headers: {
-          Authorization: `Bearer ${shiprocketToken}`
+          Authorization: `Bearer ${token}`
         }
       }
     );
 
-    console.log("✅ SHIPROCKET SUCCESS:", response.data);
+    console.log("✅ Shiprocket Success:", response.data);
 
-  } catch (error) {
-    console.log("❌ SHIPROCKET ERROR:",
-      error.response?.data || error.message
+  } catch (err) {
+    console.log("❌ Shiprocket Error:", err.response?.data || err.message);
+  }
+}
+
+const axios = require("axios");
+
+async function getShiprocketToken() {
+  try {
+    const res = await axios.post(
+      "https://apiv2.shiprocket.in/v1/external/auth/login",
+      {
+        email: process.env.SHIPROCKET_EMAIL,
+        password: process.env.SHIPROCKET_PASSWORD
+      }
     );
+
+    return res.data.token;
+
+  } catch (err) {
+    console.log("❌ Shiprocket Auth Error:", err.response?.data || err.message);
   }
 }
 
 app.post("/order", async (req, res) => {
+  console.log("📦 Order API called");
   try {
 
     const {
@@ -179,11 +185,15 @@ app.post("/order", async (req, res) => {
     });
 
     await newOrder.save();
+    await Order.create(orderData);
+    createShiprocketOrder(orderData);
+
 
     console.log("🔥 ORDER RECEIVED:", newOrder);
 
     // 🔥 CALL SHIPROCKET (DON’T AWAIT)
     createShipment(newOrder);
+
 
     res.json({ success: true });
 
