@@ -3,8 +3,11 @@
 // ===============================
 
 // ✅ FIXED CART LOGIC
-document.addEventListener("DOMContentLoaded", () =>
-   {
+document.addEventListener("DOMContentLoaded", () =>{
+
+    
+  console.log("🚀 JS STARTED"); // add this
+
 let cart = [];
 
 const buyNow = JSON.parse(localStorage.getItem("buyNow"));
@@ -147,10 +150,10 @@ window.removeItem = function(name) {
 // FORM SUBMIT
 // ===============================
 
-
+console.log("📍 BEFORE FORM");
 
   if (form) {
-
+  console.log("✅ FORM FOUND");
   form.addEventListener("submit", async function (e) {
 
     console.log("🔥 FORM SUBMITTED"); // 👈 ADD THIS LINE HERE
