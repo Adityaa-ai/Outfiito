@@ -225,3 +225,36 @@ if (form) {
 // PLACE ORDER
 // ===============================
 
+window.placeOrder = async function () {
+
+  try {
+
+    const res = await fetch("https://outfiito-backend.onrender.com/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(orderData)
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+
+      // clear cart
+      localStorage.removeItem("cart");
+      localStorage.removeItem("buyNow");
+
+      // redirect
+      window.location.href = "order-success.html";
+
+    } else {
+      alert("Order failed");
+    }
+
+  } catch (err) {
+    console.log(err);
+    alert("Server error");
+  }
+
+};
