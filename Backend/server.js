@@ -62,12 +62,8 @@ const razorpay = new Razorpay({
 // ================================
 // SHIPROCKET
 // ================================
-let shiprocketToken = "";
-
 async function getShiprocketToken() {
   try {
-    console.log("📧 Email:", process.env.SHIPROCKET_EMAIL);
-
     const response = await axios.post(
       "https://apiv2.shiprocket.in/v1/external/auth/login",
       {
@@ -76,19 +72,17 @@ async function getShiprocketToken() {
       }
     );
 
-    shiprocketToken = response.data.token;
-
-    console.log("✅ Token Generated");
+    console.log("✅ Shiprocket Token Generated");
+    return response.data.token;
 
   } catch (error) {
-    console.log("❌ Login Error:",
+    console.log("❌ Shiprocket Auth Error:",
       error.response?.data || error.message
     );
   }
 }
 
 async function createShiprocketOrder(order) {
-
   try {
     console.log("📦 Sending to Shiprocket...");
 
@@ -140,70 +134,38 @@ async function createShiprocketOrder(order) {
   }
 }
 
-const axios = require("axios");
-
-async function getShiprocketToken() {
-  try {
-    const res = await axios.post(
-      "https://apiv2.shiprocket.in/v1/external/auth/login",
-      {
-        email: process.env.SHIPROCKET_EMAIL,
-        password: process.env.SHIPROCKET_PASSWORD
-      }
-    );
-
-    return res.data.token;
-
-  } catch (err) {
-    console.log("❌ Shiprocket Auth Error:", err.response?.data || err.message);
-  }
-}
-
+// ================================
+// ORDER ROUTE
+// ================================
 app.post("/order", async (req, res) => {
   console.log("📦 Order API called");
-  try {
 
-    const {
-      name,
-      phone,
-      address,
-      pincode,
-      items,
-      total,
-      paymentMethod
-    } = req.body;
+  try {
+    const orderData = req.body;
 
     const newOrder = new Order({
-      name,
-      phone,
-      address,
-      pincode,
-      items,
-      total,
-      paymentMethod,
+      ...orderData,
       paymentStatus: "Pending"
     });
 
     await newOrder.save();
-    await Order.create(orderData);
-    createShiprocketOrder(orderData);
-
 
     console.log("🔥 ORDER RECEIVED:", newOrder);
 
-    // 🔥 CALL SHIPROCKET (DON’T AWAIT)
-    createShipment(newOrder);
-
+    // 🔥 Shiprocket call (non-blocking)
+    createShiprocketOrder(orderData);
 
     res.json({ success: true });
 
   } catch (error) {
-    console.log(error);
+    console.log("❌ Order Error:", error);
     res.status(500).json({ success: false });
   }
 });
 
-// ➤ Admin Orders
+// ================================
+// ADMIN ROUTE
+// ================================
 app.get("/orders", async (req, res) => {
   const orders = await Order.find().sort({ date: -1 });
   res.json(orders);
