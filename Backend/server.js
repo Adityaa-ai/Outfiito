@@ -39,17 +39,40 @@ const Product = mongoose.model("Product", {
   stock: Number
 });
 
-const Order = mongoose.model("Order", {
+const mongoose = require("mongoose");
+
+const orderSchema = new mongoose.Schema({
   name: String,
   phone: String,
   address: String,
   pincode: String,
-  items: Array,
+
+  items: [
+    {
+      name: String,
+      price: Number,
+      quantity: Number,
+      image: String
+    }
+  ],
+
   total: Number,
+
   paymentMethod: String,
-  paymentStatus: String,
-  date: { type: Date, default: Date.now }
-});
+
+  paymentStatus: {
+    type: String,
+    default: "Pending"
+  },
+
+  status: {
+    type: String,
+    default: "Pending"
+  }
+
+}, { timestamps: true });
+
+const Order = mongoose.model("Order", orderSchema);
 
 // ================================
 // RAZORPAY
@@ -187,6 +210,45 @@ app.post("/order", async (req, res) => {
     res.status(500).json({ success: false });
   }
 });
+
+app.get("/admin/orders", async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+
+    res.json(orders);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Server error" });
+  }
+}); 
+
+app.put("/admin/orders/:id", async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    const updated = await Order.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+
+    res.json(updated);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Update failed" });
+  }
+});
+
+app.use("/admin", (req, res, next) => {
+  const pass = req.query.pass;
+
+  if (pass === "outfiito@1234") {
+    next();
+  } else {
+    res.send("Access Denied");
+  }
+});
+
 
 // ================================
 // ADMIN ROUTE

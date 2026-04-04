@@ -1,138 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Admin Dashboard | Outfiito</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-
-<style>
-
-/* ADMIN PAGE */
-
-.admin-container{
-max-width:1100px;
-margin:auto;
-padding:80px 8%;
-}
-
-.admin-title{
-margin-bottom:40px;
-font-size:28px;
-}
-
-.order-card{
-border:1px solid #e8e5df;
-padding:25px;
-margin-bottom:25px;
-border-radius:6px;
-background:#fff;
-}
-
-.order-header{
-display:flex;
-justify-content:space-between;
-margin-bottom:15px;
-font-weight:500;
-}
-
-.order-items{
-margin-top:15px;
-padding-top:10px;
-border-top:1px solid #eee;
-}
-
-.order-item{
-display:flex;
-justify-content:space-between;
-font-size:14px;
-margin-bottom:8px;
-}
-
-.order-meta{
-font-size:14px;
-color:#555;
-margin-top:5px;
-}
-
-.order-total{
-margin-top:15px;
-font-weight:600;
-}
-
-</style>
+  <title>Admin Panel</title>
 </head>
-
 <body>
 
-<nav class="navbar">
-<div class="logo">Outfiito Admin</div>
-</nav>
+<h1>Admin Orders</h1>
 
-<section class="admin-container">
+<div id="orders"></div>
 
-<h2 class="admin-title">Customer Orders</h2>
-
-<div id="ordersContainer"></div>
-
-</section>
-
-<script>
-
-fetch("https://outfiito-backend.onrender.com/orders")
-.then(res => res.json())
-.then(data => {
-
-const container = document.getElementById("ordersContainer");
-
-if(!data.length){
-container.innerHTML="<p>No orders yet.</p>";
-return;
-}
-
-container.innerHTML = data.map(order => `
-
-<div class="order-card">
-
-<div class="order-header">
-<span>Order by ${order.name}</span>
-<span>${new Date(order.date).toLocaleString()}</span>
-</div>
-
-<div class="order-meta">
-Phone: ${order.phone}<br>
-Address: ${order.address}<br>
-Pincode: ${order.pincode}<br>
-Payment: ${order.paymentMethod}
-</div>
-
-<div class="order-items">
-
-${order.items.map(item => `
-<div class="order-item">
-<span>${item.name}</span>
-<span>₹${item.price}</span>
-</div>
-`).join("")}
-
-</div>
-
-<div class="order-total">
-Total: ₹${order.total}
-</div>
-
-</div>
-
-`).join("");
-
-})
-.catch(err=>{
-console.log(err);
-});
-
-</script>
+<script src="admin.js"></script>
 
 </body>
 </html>
