@@ -6,8 +6,36 @@ const cors = require("cors");
 const Razorpay = require("razorpay");
 const axios = require("axios");
 const path = require("path");
+const cloudinary = require("cloudinary").v2;
+const multer = require("multer");
 
 const app = express();
+
+// // ================================
+// // CLOUDINARY
+// // ================================
+// cloudinary.config({
+//   cloud_name: "YOUR_CLOUD_NAME",
+//   api_key: "YOUR_API_KEY",
+//   api_secret: "YOUR_API_SECRET"
+// });
+
+// const upload = multer({ dest: "uploads/" });
+
+// // Upload Route
+// app.post("/upload", upload.single("image"), async (req, res) => {
+//   try {
+//     const result = await cloudinary.uploader.upload(req.file.path);
+
+//     res.json({
+//       url: result.secure_url
+//     });
+
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ error: "Upload failed" });
+//   }
+// });
 
 // ================================
 // MIDDLEWARE
@@ -38,8 +66,6 @@ const Product = mongoose.model("Product", {
   backImage: String,
   stock: Number
 });
-
-
 
 const orderSchema = new mongoose.Schema({
   name: String,
@@ -165,14 +191,12 @@ app.post("/create-order", async (req, res) => {
     const { amount } = req.body;
 
     const options = {
-      amount: amount * 100, // convert to paise
+      amount: amount * 100,
       currency: "INR",
       receipt: "receipt_" + Date.now()
     };
 
     const order = await razorpay.orders.create(options);
-
-    console.log("✅ Razorpay Order Created:", order);
 
     res.json(order);
 
@@ -198,9 +222,6 @@ app.post("/order", async (req, res) => {
 
     await newOrder.save();
 
-    console.log("🔥 ORDER RECEIVED:", newOrder);
-
-    // 🔥 Shiprocket call (non-blocking)
     createShiprocketOrder(orderData);
 
     res.json({ success: true });
@@ -211,17 +232,21 @@ app.post("/order", async (req, res) => {
   }
 });
 
+// ================================
+// ADMIN APIs
+// ================================
+
+// GET ORDERS
 app.get("/admin/orders", async (req, res) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 });
-
     res.json(orders);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Server error" });
   }
-}); 
+});
 
+// UPDATE STATUS
 app.put("/admin/orders/:id", async (req, res) => {
   try {
     const { status } = req.body;
@@ -234,28 +259,21 @@ app.put("/admin/orders/:id", async (req, res) => {
 
     res.json(updated);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Update failed" });
   }
 });
 
-app.use("/admin", (req, res, next) => {
+// ================================
+// ADMIN PAGE ROUTE (FIXED)
+// ================================
+app.get("/admin", (req, res) => {
   const pass = req.query.pass;
 
   if (pass === "outfiito@1234") {
-    next();
+    res.sendFile(path.join(__dirname, "../Frontend/admin.html"));
   } else {
-    res.send("Access Denied");
+    res.send("Access Denied ❌");
   }
-});
-
-
-// ================================
-// ADMIN ROUTE
-// ================================
-app.get("/orders", async (req, res) => {
-  const orders = await Order.find().sort({ date: -1 });
-  res.json(orders);
 });
 
 // ================================

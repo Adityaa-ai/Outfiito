@@ -3,12 +3,12 @@ const ordersDiv = document.getElementById("orders");
 async function loadOrders() {
   try {
     const res = await fetch("/admin/orders");
-    const data = await res.json();
+    const orders = await res.json();
 
-    displayOrders(data);
+    displayOrders(orders);
 
   } catch (err) {
-    console.log("Error fetching orders", err);
+    console.log("Error loading orders", err);
   }
 }
 
@@ -16,20 +16,14 @@ function displayOrders(orders) {
   ordersDiv.innerHTML = "";
 
   orders.forEach(order => {
-
     const box = document.createElement("div");
-
-    box.style.border = "1px solid black";
-    box.style.margin = "10px";
-    box.style.padding = "10px";
+    box.className = "order";
 
     box.innerHTML = `
-      <p><b>ID:</b> ${order._id}</p>
+      <p><b>Order ID:</b> ${order._id}</p>
       <p><b>Name:</b> ${order.name}</p>
-      <p><b>Phone:</b> ${order.phone}</p>
-      <p><b>Address:</b> ${order.address}</p>
       <p><b>Total:</b> ₹${order.total}</p>
-      <p><b>Status:</b> ${order.status}</p>
+      <p><b>Status:</b> ${order.status || "Pending"}</p>
 
       <select onchange="changeStatus('${order._id}', this.value)">
         <option ${order.status === "Pending" ? "selected" : ""}>Pending</option>
@@ -53,7 +47,7 @@ async function changeStatus(id, status) {
       body: JSON.stringify({ status })
     });
 
-    alert("Updated ✅");
+    loadOrders();
 
   } catch (err) {
     console.log("Update failed", err);
