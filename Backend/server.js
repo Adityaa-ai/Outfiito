@@ -39,7 +39,7 @@ const Product = mongoose.model("Product", {
   stock: Number
 });
 
-const mongoose = require("mongoose");
+
 
 const orderSchema = new mongoose.Schema({
   name: String,
