@@ -5,7 +5,7 @@
 const products = [
   { id: 1, name: "Urban Muse ", price: 599, front: "/images/IMG_1610F.PNG", back: "/images/IMG_1610B.PNG" },
 
-  { id: 2, name: "AOT", price: 499, front: "/images/IMG_1604F.PNG", back: "/images/IMG_1604B.PNG" }
+  { id: 2, name: "AOT", price: 599, front: "/images/IMG_1604F.PNG", back: "/images/IMG_1604B.PNG" }
 ];
 
 
