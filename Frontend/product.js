@@ -3,12 +3,9 @@
 // ===============================
 
 const products = [
-  { id: 1, name: "Emirates", price: 499, front: "/images/IMG_1601F.PNG", back: "/images/IMG_1601B.PNG" },
-  { id: 2, name: "Calm Bitch", price: 499, front: "/images/IMG_1602F.PNG", back: "/images/IMG_1602B.PNG" },
-  { id: 3, name: "Eagle", price: 499, front: "/images/IMG_1603F.PNG", back: "/images/IMG_1603B.PNG" },
-  { id: 4, name: "COHCO3", price: 499, front: "/images/IMG_1606.PNG", back: "/images/IMG_1607.PNG" },
-  { id: 5, name: "Unknown Saint", price: 499, front: "/images/IMG_1609.PNG", back: "/images/IMG_1609.PNG" },
-  { id: 6, name: "AOT", price: 499, front: "/images/IMG_1604F.PNG", back: "/images/IMG_1604B.PNG" }
+  { id: 1, name: "Urban Muse ", price: 599, front: "/images/IMG_1610F.PNG", back: "/images/IMG_1610B.PNG" },
+
+  { id: 2, name: "AOT", price: 499, front: "/images/IMG_1604F.PNG", back: "/images/IMG_1604B.PNG" }
 ];
 
 
