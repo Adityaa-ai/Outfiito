@@ -5,9 +5,11 @@
 const products = [
   { id: 1, name: "Urban Muse ", price: 599, front: "/images/IMG_1610F.PNG", back: "/images/IMG_1610B.PNG" },
 
-  { id: 2, name: "AOT", price: 599, front: "/images/IMG_1604F.PNG", back: "/images/IMG_1604B.PNG" },
+  { id: 2, name: "Attack On Titan", price: 599, front: "/images/IMG_1604F.PNG", back: "/images/IMG_1604B.PNG" },
 
-  { id: 3, name: "Velocity drift", price: 799, front: "/images/IMG_1611F.PNG", back: "/images/IMG_1611B.PNG" }
+  { id: 3, name: "Velocity drift", price: 799, front: "/images/IMG_1611F.PNG", back: "/images/IMG_1611B.PNG" }, 
+
+  { id: 4, name: "Retro Beast", price: 799, front: "/images/IMG_1612F.PNG", back: "/images/IMG_1612B.PNG" }
 ];
 
 
