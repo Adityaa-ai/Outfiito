@@ -9,7 +9,7 @@ const products = [
 
   { id: 3, name: "Velocity drift", price: 799, front: "/images/IMG_1611F.PNG", back: "/images/IMG_1611B.PNG" },
   
-  { id: 3, name: "Focus Dimension", price: 699, front: "/images/IMG_1613F.PNG", back: "/images/IMG_1613B.PNG" }, 
+  { id: 5, name: "Focus Dimension", price: 699, front: "/images/IMG_1613F.PNG", back: "/images/IMG_1613B.PNG" }, 
 
   { id: 4, name: "Retro Beast", price: 799, front: "/images/IMG_1612F.PNG", back: "/images/IMG_1612B.PNG" }
 ];
