@@ -11,6 +11,9 @@ const products = [
   
   { id: 5, name: "Focus Dimension", price: 699, front: "/images/IMG_1613F.PNG", back: "/images/IMG_1613B.PNG" }, 
 
+  { id: 6, name: "Dark Zenith", price: 699, front: "/images/IMG_1614F.PNG", back: "/images/IMG_1614B.PNG" }, 
+
+
   { id: 4, name: "Retro Beast", price: 799, front: "/images/IMG_1612F.PNG", back: "/images/IMG_1612B.PNG" }
 ];
 
